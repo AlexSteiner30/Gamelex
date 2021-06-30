@@ -1,0 +1,76 @@
+body{
+    background-color: black;
+}
+
+.ModuloGioco{
+    padding-left: 30px;
+    margin: 30px;
+    float: left;
+}
+
+input { 
+    margin:0;
+    padding:0;
+    display:table-cell;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    width: 200px;
+    height: 300px;
+}
+
+button{ 
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: ghostwhite;
+  }
+  
+  .active {
+    background-color: #04AA6D;
+  }
+
+  h1{
+    font-family: sans-serif;
+    text-decoration: none;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  h2{
+    font-family: sans-serif;
+    text-decoration: none;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  h3{
+    font-family: sans-serif;
+    text-decoration: none;
+    font-weight: 400;
+    text-align: center;
+  }
+

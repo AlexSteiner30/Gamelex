@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+}
+
+body{
+    background-color: lightblue;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: ghostwhite;
+  }
+  
+  .active {
+    background-color: #04AA6D;
+  }
+
+  h1{
+    font-family: sans-serif;
+    text-decoration: none;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  h2{
+    font-family: sans-serif;
+    text-decoration: none;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  h3{
+    font-family: sans-serif;
+    text-decoration: none;
+    font-weight: 400;
+    text-align: center;
+  }
+
+.Card-img{
+  display: block;
+  padding-left: auto;
+  padding-right: auto;
+}
+
+.Circle-Royale{
+  float: left;
+  padding-left: 30px;
+  margin: 30px;
+  height: auto;
+  width: 300px;
+  border-radius: 10px 10px 10px 10px; 
+  background-color: white;
+}
+
+
+.Circle-Royale2{
+  float: left;
+  padding-left: 30px;
+  margin: 30px;
+  height: auto;
+  width: 300px;
+  border-radius: 10px 10px 10px 10px; 
+  background-color: white;
+  
+}
+
+.Card-img{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.Titolo-Card{
+  padding-left: 0px;
+}
+.SottoTitolo-Card{
+  text-align: justify;
+  text-justify: inter-word;
+  padding-right: 20px;
+}
+
+button{ 
+  border-radius: 10px 10px 10px 10px; 
+      background-color:#0d6efd;
+      border-color:#0d6efd;
+
+      display: inline-block;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #212529;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      background-color: cornflowerblue;
+      border: 1px solid cornflowerblue;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
