@@ -1,17 +1,24 @@
-<h1>Register</h1>
-<form action="/register" method="POST">
-  <div>
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" required>
-  </div>
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-  </div>
-  <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-  </div>
-  <button type="submit">Register</button>
-</form>
-<a href="/login">Login</a>
+<div class="container mt-5">
+  <a href="/index" class="btn btn-primary mb-5">Go Back</a>
+  <h1>Login</h1>
+  <form action="/Register" method="POST">
+      <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" name="email" id = "email" class="form-control" id="email" required aria-describedby="email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password"id = "password" name="password" class="form-control" required id="password">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Username</label>
+        <input type="text"id = "Username" name="Username" class="form-control" required>
+    </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  
+   
+</div>

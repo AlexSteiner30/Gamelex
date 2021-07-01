@@ -28,8 +28,10 @@ const notesSchema ={
 const userSchema = {
   email : String,
   password : String,
+  userName : String,
   votato : Boolean
 }
+
 
 const Note = mongoose.model("Videogiochi-non-approvati", notesSchema)
 
@@ -131,13 +133,15 @@ app.get("/Register", (req, res) =>{
 })
 
 app.post("/Register", function (req, res)  {
-  var mail
-  var password
-  var userName
+  let register = new User({
+    mail :  req.body.mail,
+    password : req.body.password,
+    userName : req.body.Username,
+    votato : false
+  })
 
-  mail = req.body.mail
-  password = req.body.password
-  userName = req.body.password
+  register.save()
+
 })
 //Login
 
