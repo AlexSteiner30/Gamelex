@@ -14,14 +14,5 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     
-    
-    <% const douserUserExits = User.findOne({email}) %> 
-
-    <% if (!doesUserExits)  { %>
-        <h1><%= lo user non esite %> </h1>
-     
-    <% } else if (doesUserExits) { %>
-        <h1><%= lo user esiste %> </h1>
-    <% } %> 
      
 </div>

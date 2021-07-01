@@ -7,6 +7,7 @@ const assert = require("assert");
 const ejs = require ("ejs");
 const { kStringMaxLength } = require('buffer');
 const fs = require ("fs")
+const bcrypt = require ("bcrypt")
 
 var url = "mongodb+srv://Alex:ZicdzhMqwEHtbCT6@cluster0.bzmph.mongodb.net/myFirstDatabase";
 
@@ -26,7 +27,8 @@ const notesSchema ={
 
 const userSchema = {
   email : String,
-  password : String
+  password : String,
+  votato : Boolean
 }
 
 const Note = mongoose.model("Videogiochi-non-approvati", notesSchema)
@@ -104,13 +106,9 @@ app.post("/", function(req, res){
 
 app.get("/index", (req, res) => {
   Note.find({}, function(err, partiCard) {
-      res.render('index', {
-          partiCardList: partiCard
-      })
-
-      var htmlContent = '<html>Whatever</html>';
-              
-      fs.writeFile(`${partiCard.title}.html`, htmlContent, (error) => { /* handle error */ }); 
+    res.render('games', {
+        partiCardList: partiCard
+    })
   })
 })
 
@@ -126,46 +124,28 @@ app.get("/games", (req, res) => {
   })
 })
 
-app.get("/login", function(req, res){
-  const { email, password } = req.body;
+//Login
 
-  User.findOne({ email }, function(err, email) {
-      res.render('login', {
-        email,
-        password
-      })
-  })
+app.get("/login", async (req, res) => {
+  res.render("login")
+
 })
 
+app.post ("/login", function(req, res) {
 
-//app.post("/login", async (req, res) => {
-  
-  //const doesUserExits = await User.findOne({ email });
+  var email
+  var password
 
-  /*
+  email = req.body.email
+  password = req.body.password
+
+  const doesUserExits = User.findOne({ email });
+
   if (!doesUserExits) {
-    console.log("invalid username or password");
+    res.send ("La mail non esiste")
     return;
-  }
-
-  const doesPasswordMatch = await bcrypt.compare(
-    password,
-    doesUserExits.password
-  );
-
-  if (!doesPasswordMatch) {
-    console.log("invalid useranme or password");
-    return;
-  }
-
-  // else he\s logged in
-  req.session.user = {
-    email,
-  };
-
-  res.redirect("/home");
-  */
-//})
+  } 
+})
 
 app.listen(4000, function(){
   console.log("Server runna");
