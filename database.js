@@ -124,6 +124,21 @@ app.get("/games", (req, res) => {
   })
 })
 
+//Register
+
+app.get("/Register", (req, res) =>{
+  res.render("register")
+})
+
+app.post("/Register", function (req, res)  {
+  var mail
+  var password
+  var userName
+
+  mail = req.body.mail
+  password = req.body.password
+  userName = req.body.password
+})
 //Login
 
 app.get("/login", async (req, res) => {
@@ -141,10 +156,15 @@ app.post ("/login", function(req, res) {
 
   const doesUserExits = User.findOne({ email });
 
+  console.log(doesUserExits)
   if (!doesUserExits) {
     res.send ("La mail non esiste")
-    return;
   } 
+
+  if (doesUserExits){
+    res.send ("La mail esiste")
+  }
+  
 })
 
 app.listen(4000, function(){
