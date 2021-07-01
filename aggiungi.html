@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Gamelex</title>
+
+    <link href="#aggiungi.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+
+    <ul class="menu">
+      <br>
+      <li><a href="/index">Home</a></li>
+      <li><a href="/games">Video giochi</a></li>
+      <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
+      <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
+      <li><a href="/login">Login</a></li>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h1>Gamelex</h1>
+      <br>
+      <h2>La miglior lista di videogiochi italiani!</h2>
+      <br>
+      <br>
+  </ul>
+
+  <br>
+  <br>
+  <br>
+
+    <div class = "Modulo Gioco">
+      <form method="POST" action="/">
+        <h4 class = "Nome del gioco">Nome del videogioco</h4>
+
+        <input required id = "NomeGioco" name="title" type="text"></input>
+
+        <h4 class = "Link del Gioco">Link del gioco</h4>
+
+        <input required id = "LinkGioco" name="link" type="text"></input>
+
+        <h4 class = "Devoloper">Devoloper id (Discord)</h4>
+
+        <input required id = "DevoloperGioco" name="devoloper" type="text"></input>
+
+        <h4 class = "Logo">Logo del videgioco (si consiglia 512 x 512)</h4>
+
+        <input required id = "LogoGioco" name="logo" type="text"></input>
+
+        <h4 class = "DescrizioneGioco">Descrizione (Supporta anche html)</h4>
+
+        <input required id = "DescrizioneGioco" name="desc" type="text"></input>
+
+        <button>Inviaci il tuo gioco!</button>
+      </form>
+    </div>
+
+
+    <style>
+      body{
+    background-color:lightblue;
+}
+
+.ModuloGioco{
+    padding-left: 30px;
+    margin: 30px;
+    float: left;
+}
+
+input { 
+    margin:0;
+    padding:0;
+    display:table-cell;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    width: 200px;
+    height: 300px;
+}
+
+button{ 
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: ghostwhite;
+  }
+  
+  .active {
+    background-color: #04AA6D;
+  }
+
+  h1{
+    font-family: sans-serif;
+    text-decoration: none;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  h2{
+    font-family: sans-serif;
+    text-decoration: none;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  h3{
+    font-family: sans-serif;
+    text-decoration: none;
+    font-weight: 400;
+    text-align: center;
+  }
+
+
+    </style>
+
+  </body>
+</html>
