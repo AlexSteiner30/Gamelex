@@ -6,7 +6,6 @@
     <title>Gamelex</title>
 
     <link href="#index.css" rel="stylesheet" type="text/css" />
-
   </head>
 
   <body>
@@ -17,8 +16,8 @@
         <li><a href="/games">Video giochi</a></li>
         <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
         <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
-        <li><a href = "/login">Login</a></li>
-        <li><a href = "/Register">Register</a></li>
+        <li><a href = "/user"><%= user %> </a></li>
+        <li><a href = "/logout">Logout</a></li>
         <br>
         <br>
         <br>
@@ -42,18 +41,20 @@
 
           <% } else if (partiCard.approvato === true) { %>
            
-           
-            <div class = "Circle-Royale">
-              <br>
-              <img  class = "Card-img" src=<%= partiCard.logo %> >
-              <h1 class = "Titolo-Card"><%= partiCard.title %> </h1>
-              <h3 class="SottoTitolo-Card"><%= partiCard.desc %> </h3>
-              
-              <a class="gioca-vedi" href= <%=`/${partiCard.title}  %> >Vedi video gioco</a>
-              <a class="gioca-vedi" href = <%= partiCard.link %> >Gioca</a>
-              <br>
-              <br>
-            </div>
+            <% if (partiCard.devoloper === user) { %>
+              <div class = "Circle-Royale">
+                <br>
+                <img  class = "Card-img" src=<%= partiCard.logo %> >
+                <h1 class = "Titolo-Card"><%= partiCard.title %> </h1>
+                <h3 class="SottoTitolo-Card"><%= partiCard.desc %> </h3>
+      
+                <a class="gioca-vedi">Vedi video gioco</a>
+                <a class="gioca-vedi" href = <%= partiCard.link %> >Gioca</a>
+                <br>
+                <br>
+              </div>
+            <% } else if (partiCard.devoloper === user) { %>
+             <% console.log ("Questo bot non appartiene al devoloper loggato") %> 
           <% } %>
 
           

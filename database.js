@@ -3,11 +3,16 @@ const app = express()
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const { Webhook } = require('discord-webhook-node');
+const Discord = require('discord.js');
 const assert = require("assert");
 const ejs = require ("ejs");
 const { kStringMaxLength } = require('buffer');
 const fs = require ("fs")
 const bcrypt = require ("bcrypt")
+const config = require("./config.json");
+
+var user
+var loggato = false;
 
 var url = "mongodb+srv://Alex:ZicdzhMqwEHtbCT6@cluster0.bzmph.mongodb.net/myFirstDatabase";
 
@@ -15,6 +20,11 @@ app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
 
 mongoose.connect("mongodb+srv://Alex:ZicdzhMqwEHtbCT6@cluster0.bzmph.mongodb.net/myFirstDatabase")
+
+const client = new Discord.Client();
+
+
+let prefix = "!";
 
 const notesSchema ={
   logo: String,
@@ -40,25 +50,46 @@ const User = mongoose.model("login", userSchema)
  
 app.get('/', (req, res) => {
   Note.find({}, function(err, partiCard) {
-      res.render('index', {
-          partiCardList: partiCard
-      })
+    if (loggato === true){
+      res.render ("games-login", {user : userName, partiCardList: partiCard})
+    }
+    else if (loggato === false){
+      res.render('games', {
+        partiCardList: partiCard
+    })
+    }
   })
 })
 
+app.get("/aggiungi", (req, res) => {
+  if (loggato === true){
+    res.sendFile (__dirname + "/aggiungi.html")
+  }
 
-app.post("/", function(req, res){
+  else if (loggato === false){
+    Note.find({}, function(err, partiCard) {
+      res.render ("games", {partiCardList : partiCard})
+    })
+  }
+})
+
+app.post("/aggiungi", function(req, res){
   let newNote = new Note({
     title: req.body.title,
     desc: req.body.desc,
     link: req.body.link,
     logo: req.body.logo,
-    devoloper: req.body.devoloper,
+    devoloper: userName,
     approvato: false
 
   });
 
-  newNote.save();
+  var idGioco
+
+  newNote.save(function(err,gioco) {
+    console.log(gioco.id);
+    idGico = gioco.id;
+ });
 
   console.log("Salvato, db aggiornato!")
 
@@ -87,32 +118,44 @@ app.post("/", function(req, res){
 
     
   var NomeGioco = req.body.title;
-  var LinkGioco = req.body.lnik;
+  var LinkGioco = req.body.link;
   var DevoloperGioco = req.body.devoloper;
   var LogoGioco = req.body.logo;
   var DescGioco = req.body.desc;
 
-
   devoloper = DevoloperGioco;
 
-  var msg2 = `Nome: ${NomeGioco}\nLink: ${LinkGioco} \nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}`;
 
+  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\n ID: ${idGioco}`;
+
+  const infogioco = new Discord.MessageEmbed()
+  .setTitle(`${NomeGioco}`)
+  .setURL (`${LinkGioco}`)
+  .setDescription(`Devoloper ${userName}\n Descrizione: ${DescGioco}\n ID: ${idGioco}` )
 
   console.log("Gioco Inviato con successo anche in privato agli staffer")
 
-  Hook2.send(msg2);
+  //Hook2.send(msg2);
+  //Hook2.send(botInfo)
 
-  
+  client.channels.cache.get(`858254918065455104`).send(infogioco)
   res.sendFile(__dirname + "/aggiungi.html")
 })
 
+
 app.get("/index", (req, res) => {
   Note.find({}, function(err, partiCard) {
-    res.render('games', {
+    if (loggato === true){
+      res.render ("games-login", {user : userName, partiCardList: partiCard})
+    }
+    else if (loggato === false){
+      res.render('games', {
         partiCardList: partiCard
     })
+    }
   })
 })
+
 
 app.get("/aggiungi", function(req, res){
   res.sendFile(__dirname + "/aggiungi.html")
@@ -120,9 +163,14 @@ app.get("/aggiungi", function(req, res){
 
 app.get("/games", (req, res) => {
   Note.find({}, function(err, partiCard) {
+    if (loggato === true){
+      res.render ("games-login", {user : userName, partiCardList: partiCard})
+    }
+    else if (loggato === false){
       res.render('games', {
-          partiCardList: partiCard
-      })
+        partiCardList: partiCard
+    })
+    }
   })
 })
 
@@ -133,16 +181,49 @@ app.get("/Register", (req, res) =>{
 })
 
 app.post("/Register", function (req, res)  {
+
+  var mailCheck = req.body.email
+  var UserNameCheck = req.body.Username
+
+
   let register = new User({
-    mail :  req.body.mail,
+    email :  req.body.email,
     password : req.body.password,
     userName : req.body.Username,
     votato : false
   })
 
-  register.save()
+  User.exists({ userName: `${req.body.Username}` }, function(err, result) {
+    if (err) {
+      res.send("Abbio riscontrato un errore");
+    } else {
 
+      console.log (result)
+
+
+       
+      User.exists({ email: `${req.body.email}` }, function(err, result) {
+          if (err) {
+            res.send("Abbio riscontrato un errore");
+          }
+          else{
+            if (result === false){
+              res.send("Account create con successo");
+              res.render("index")
+              register.save()
+            }
+
+            else if (result === true){
+              res.send ("La mail o il nome dell'utente sono già state utilizzate")
+              res.render ("index")
+            }
+          }
+        })
+      
+    }
+  })
 })
+
 //Login
 
 app.get("/login", async (req, res) => {
@@ -150,27 +231,62 @@ app.get("/login", async (req, res) => {
 
 })
 
-app.post ("/login", function(req, res) {
+app.post ("/login", (req, res) => {
 
-  var email
   var password
 
-  email = req.body.email
+  userName = req.body.user
   password = req.body.password
 
-  const doesUserExits = User.findOne({ email });
-
-  console.log(doesUserExits)
-  if (!doesUserExits) {
-    res.send ("La mail non esiste")
-  } 
-
-  if (doesUserExits){
-    res.send ("La mail esiste")
-  }
+  User.exists({ userName: `${req.body.user}`, password:  `${req.body.password}` }, function(err, result) {
+    if (err){
+      res.send ("Abbiamo riscontrato un errore")
+    }
+    else if (result === true){
+      loggato = true;
+      Note.find({}, function(err, partiCard) {
+        res.render ("games-login", {user : req.body.user, partiCardList: partiCard})
+      })
+    }
+    else if (result === false){
+      res.send ("La mail o la password non sono corrette!")
+    }
+  })
   
 })
+
+//Logout 
+
+app.get("/logout", (req, res) =>{
+  loggato = false
+  Note.find({}, function(err, partiCard) {
+    res.render('games', {
+        partiCardList: partiCard
+    })
+    
+  })
+})
+
+//User
+
+app.get("/user", (req, res) => {
+  Note.find({}, function(err, partiCard) {
+    if (loggato === true){
+      res.render ("userProfile", 
+      {user : userName, partiCardList: partiCard})
+    }
+    else if (loggato === false){
+      res.render('games', {
+        partiCardList: partiCard
+    })
+    }
+  })
+})
+
+//Info Gioco
 
 app.listen(4000, function(){
   console.log("Server runna");
 })
+
+client.login (config.token);
