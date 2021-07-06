@@ -88,7 +88,7 @@ app.post("/aggiungi", function(req, res){
 
   newNote.save(function(err,gioco) {
     console.log(gioco.id);
-    idGico = gioco.id;
+    idGioco = gioco.id;
  });
 
   console.log("Salvato, db aggiornato!")
@@ -283,10 +283,12 @@ app.get("/user", (req, res) => {
   })
 })
 
-//Info Gioco
+//Info Gioco 
 
-app.listen(4000, function(){
-  console.log("Server runna");
-})
+//Server
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server Runna sull porta ${port}`));
+
 
 client.login (config.token);

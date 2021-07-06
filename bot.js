@@ -9,6 +9,7 @@ const { Webhook } = require('discord-webhook-node');
 const assert = require("assert");
 const ejs = require ("ejs");
 const { kStringMaxLength } = require('buffer');
+const fs = require ("fs")
 
 
 const client = new Discord.Client();
@@ -49,6 +50,13 @@ client.on('message', message => {
         {
             if(!err){
                message.channel.send("Il gioco è stato approvato correttamente!")
+
+               fs.writeFile("prova.html", "Hey there!", function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+                console.log("The file was saved!");
+            });
 
             }
 
