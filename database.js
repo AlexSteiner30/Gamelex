@@ -292,3 +292,4 @@ app.listen(port, () => console.log(`Server Runna sull porta ${port}`));
 
 
 client.login (config.token);
+console.log(`Ciao`)

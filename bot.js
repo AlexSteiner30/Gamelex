@@ -51,7 +51,8 @@ client.on('message', message => {
             if(!err){
                message.channel.send("Il gioco è stato approvato correttamente!")
 
-               fs.writeFile("prova.html", "Hey there!", function(err) {
+               const toAppend = "\nconsole.log(`Ciao`)";
+               fs.appendFile("database.js", toAppend, function(err) {
                 if(err) {
                     return console.log(err);
                 }
@@ -77,7 +78,6 @@ client.on('message', message => {
         {
             if(!err){
                message.channel.send("Il gioco è stato eliminato correttamente!")
-
             }
 
             else{
