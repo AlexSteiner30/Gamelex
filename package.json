@@ -1,6 +1,7 @@
 {
     "name": "gamelex",
     "version": "1.0.0",
+    "node" : "12.16.1",
     "description": "",
     "main": "database.js",
     "scripts": {
