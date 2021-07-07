@@ -16,7 +16,7 @@
       <li><a href="/games">Video giochi</a></li>
       <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
       <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
-      <li><a href="/login">Login</a></li>
+      <li><a href="/logout">Logout</a></li>
       <br>
       <br>
       <br>
@@ -54,11 +54,15 @@
 
         <input required id = "DescrizioneGioco" name="desc" type="text"></input>
 
-        <button>Inviaci il tuo gioco!</button>
+        <button onclick="alert()">Inviaci il tuo gioco!</button>
       </form>
     </div>
 
-
+    <script>
+      function alert(){
+        alert("Il tuo gioco è stato mandato correttamente ai tester!\n Ti ricordiamo, se non ancora lo hai fatto, di entrare nel server discord")
+      }
+    </script>
     <style>
       body{
     background-color:lightblue;

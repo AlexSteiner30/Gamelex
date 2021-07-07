@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= nome %> </title>
 </head>
 <body>
     <ul class="menu">
         <br>
         <li><a href="/index">Home</a></li>
         <li><a href="/games">Video giochi</a></li>
+        <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
         <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
-        <li><a href = "/login">Login</a></li>
-        <li><a href = "/Register">Register</a></li>
+        <li><a href = "/user"><%= user %> </a></li>
+        <li><a href = "/logout">Logout</a></li>
         <br>
         <br>
         <br>
@@ -25,10 +26,52 @@
         <br>
     </ul>
 
-    <div class="infoGioco">
-        
+    <div class = "infoGioco">
+        <%if (user === devoloper){%>
+            <div class = "Circle-Royale">
+                <br>
+                <img  class = "Card-img" src=<%= img %> >
+                <h1 class = "Titolo-Card"><%= nome %> </h1>
+                <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
+      
+                <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+                <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+                <br>
+                <br>
+                <a class="gioca-vedi" href = <%= `/${id}/modifica` %> >Modifica</a>
+                <a class="gioca-vedi" href = <%= `/${id}/elimina` %> >Elimina</a>
+                <br>
+                <br>
+            </div>
+
+        <% } else if (user != devoloper) { %>
+            <div class = "Circle-Royale">
+                <br>
+                <img  class = "Card-img" src=<%= img %> >
+                <h1 class = "Titolo-Card"><%= nome %> </h1>
+                <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
+      
+                <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+                <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+                <br>
+                <br>
+            </div>
+
+            <div class = "Circle-Royale2">
+                <br>
+                <h1 class = "Titolo-Card">Statistiche</h1>
+                <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %> </h3>
+      
+                <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+                <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+                <br>
+                <br>
+              </div>
+          
+        <% } %>
     </div>
 
+    
     <style>
         * {
     box-sizing: border-box;
@@ -110,7 +153,7 @@
     padding-left: 30px;
     margin: 30px;
     height: auto;
-    width: 300px;
+    width: auto;
     border-radius: 10px 10px 10px 10px; 
     background-color: white;
     
@@ -155,7 +198,6 @@
         transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
   
-    </style>
-    
+      </style>
 </body>
 </html>

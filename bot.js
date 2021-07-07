@@ -34,6 +34,12 @@ const notesSchema ={
   
 const Note = mongoose.model("Videogiochi-non-approvati", notesSchema)
 
+var titolo
+var descrizione
+var link
+var devoloper
+var logo 
+
 client.on('message', message => {
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -49,15 +55,61 @@ client.on('message', message => {
         Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
         {
             if(!err){
-               message.channel.send("Il gioco è stato approvato correttamente!")
+                var nome
+                message.channel.send("Il gioco è stato approvato correttamente!")
 
-               const toAppend = "\nconsole.log(`Ciao`)";
-               fs.appendFile("database.js", toAppend, function(err) {
-                if(err) {
-                    return console.log(err);
-                }
-                console.log("The file was saved!");
-            });
+                Note.findById({_id : args}, (error, data) =>{
+                    titolo = data.title
+                    descrizione = data.desc
+                    link = data.link
+                    devoloper = data.devoloper
+                    logo = data.logo
+                })
+
+                
+//Info Gioco 
+Note.find({}, function(err, partiCard) {
+    partiCard.forEach(partiCard2 =>{
+      app.get(`/${partiCard2._id}`, ( req, res ) =>{
+        if (loggato === false){
+          res.render("infoGioco", 
+          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+          img : partiCard2.logo, link : partiCard2.link, 
+          desc : partiCard2.desc, user : userName,
+          voti : partiCard2.voti })
+        }
+        else if (loggato === true){
+          res.render ("infoGioco-loggato", 
+          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+          img : partiCard2.logo, link : partiCard2.link, 
+          desc : partiCard2.desc, user : userName,
+          voti : partiCard2.voti, id : partiCard2._id })
+        }
+      })
+    })
+  
+    partiCard.forEach(partiCard2 =>{
+      app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
+        if (loggato === false) {
+          res.render("infoGioco", 
+          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+          img : partiCard2.logo, link : partiCard2.link, 
+          desc : partiCard2.desc, user : userName,
+          voti : partiCard2.voti })
+        }
+        else if (loggato === true){
+          var numeroVoti = partiCard2.voti
+          console.log(numeroVoti)
+          numeroVoti + 1 //Non aggiunge il voto
+          console.log(numeroVoti)
+          Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": numeroVoti},  function(err,data){}
+          )
+          Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": numeroVoti},  function(err,data){}
+          )
+        }
+      })
+    })
+  })
 
             }
 
@@ -89,5 +141,4 @@ client.on('message', message => {
 
     }
 });
-
 client.login (config.token);

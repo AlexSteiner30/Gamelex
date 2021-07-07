@@ -32,7 +32,8 @@ const notesSchema ={
   desc: String,
   link: String,
   devoloper: String,
-  approvato: Boolean
+  approvato: Boolean,
+  voti: Number
 }
 
 const userSchema = {
@@ -80,17 +81,18 @@ app.post("/aggiungi", function(req, res){
     link: req.body.link,
     logo: req.body.logo,
     devoloper: userName,
-    approvato: false
+    approvato: false,
+    voti: 0
 
   });
 
-  var idGioco
+  var idGioco;
 
   newNote.save(function(err,gioco) {
-    console.log(gioco.id);
     idGioco = gioco.id;
  });
 
+  console.log(idGioco);
   console.log("Salvato, db aggiornato!")
 
   const Hook1 = new Webhook("https://discord.com/api/webhooks/857985572220043274/xx4pX7hvFvkri5i6OJJIBLtjhTD95nkExgR95xTf07hwFMPyWZNQ3An_CkyyVGVcJEOa");
@@ -126,7 +128,7 @@ app.post("/aggiungi", function(req, res){
   devoloper = DevoloperGioco;
 
 
-  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\n ID: ${idGioco}`;
+  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${idGioco}`;
 
   const infogioco = new Discord.MessageEmbed()
   .setTitle(`${NomeGioco}`)
@@ -136,9 +138,9 @@ app.post("/aggiungi", function(req, res){
   console.log("Gioco Inviato con successo anche in privato agli staffer")
 
   //Hook2.send(msg2);
-  //Hook2.send(botInfo)
+  //Hook2.send(infogioco)
 
-  client.channels.cache.get(`858254918065455104`).send(infogioco)
+  client.channels.cache.get(`858254918065455104`).send(msg2)
   res.sendFile(__dirname + "/aggiungi.html")
 })
 
@@ -283,12 +285,267 @@ app.get("/user", (req, res) => {
   })
 })
 
+client.on('message', message => {
+
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+  const args = message.content.slice(prefix.length).trim().split(' ');
+  const command = args.shift().toLowerCase();
+
+  if (command === 'approva') {
+    if (!args.length) {
+      return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+    }
+      
+    Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
+    {
+        if(!err){
+            var nome
+            message.channel.send("Il gioco è stato approvato correttamente!")
+
+            Note.findById({_id : args}, (error, data) =>{
+                  titolo = data.title
+                  descrizione = data.desc
+                  link = data.link
+                  devoloper = data.devoloper
+                  logo = data.logo
+            })
+
+            //Info Gioco 
+            Note.find({}, function(err, partiCard) {
+                partiCard.forEach(partiCard2 =>{
+                    app.get(`/${partiCard2._id}`, ( req, res ) =>{
+                        if (loggato === false){
+                            res.render("infoGioco", 
+                                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                                  img : partiCard2.logo, link : partiCard2.link, 
+                                  desc : partiCard2.desc, user : userName,
+                                  voti : partiCard2.voti })
+                        }
+                        else if (loggato === true){
+                            res.render ("infoGioco-loggato", 
+                              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                              img : partiCard2.logo, link : partiCard2.link, 
+                              desc : partiCard2.desc, user : userName,
+                              voti : partiCard2.voti, id : partiCard2._id })
+                        }
+                    })
+                })
+
+                partiCard.forEach(partiCard2 =>{
+                    app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
+                        if (loggato === false) {
+                            res.render("infoGioco", 
+                                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                                  img : partiCard2.logo, link : partiCard2.link, 
+                                  desc : partiCard2.desc, user : userName,
+                                  voti : partiCard2.voti })
+                        }
+                        else if (loggato === true){
+                          var numeroVoti = partiCard2.voti
+                          console.log(numeroVoti)
+                          numeroVoti + 1 //Non aggiunge il voto
+                          console.log(numeroVoti)
+                          Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": numeroVoti},  function(err,data){
+                          })
+                          Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": numeroVoti},  function(err,data){
+                          })
+                          
+                        }
+                    })
+                })
+              })
+
+          }
+
+          else{
+              message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
+          }
+      
+      });
+
+}
+
+  else if (command === 'rifiuta') {
+    if (!args.length) {
+      return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+    }
+
+    Note.findOneAndRemove({_id: args},  function(err,data)
+    {
+        if(!err){
+             message.channel.send("Il gioco è stato eliminato correttamente!")
+        }
+
+        else{
+              message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
+        }
+      
+      });
+
+
+  }
+});
+
 //Info Gioco 
+Note.find({}, function(err, partiCard) {
+  //Info
+  partiCard.forEach(partiCard2 =>{
+      app.get(`/${partiCard2._id}`, ( req, res ) =>{
+          if (loggato === false){
+              res.render("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : partiCard2.desc, user : userName,
+                    voti : partiCard2.voti })
+          }
+          else if (loggato === true){
+              res.render ("infoGioco-loggato", 
+                {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                img : partiCard2.logo, link : partiCard2.link, 
+                desc : partiCard2.desc, user : userName,
+                voti : partiCard2.voti, id : partiCard2._id })
+          }
+      })
+  })
+
+  //Voto
+  partiCard.forEach(partiCard2 =>{
+      app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
+          if (loggato === false) {
+              res.render("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : partiCard2.desc, user : userName,
+                    voti : partiCard2.voti })
+          }
+          else if (loggato === true){
+
+            var numeroVoti = partiCard2.voti
+            var result = numeroVoti + 1
+            console.log(result)
+            console.log (userName)
+            User.find ({}, function(err, partiUser){
+
+              partiUser.forEach(partiUser2 =>{
+                if (partiUser2.userName === userName){
+                  console.log("Sei tu")
+                  if (partiUser2.votato === false){
+                    Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": result},  function(err,data){
+                      res.render ("infoGioco-loggato", 
+                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                        img : partiCard2.logo, link : partiCard2.link, 
+                        desc : partiCard2.desc, user : userName,
+                        voti : result, id : partiCard2._id })
+                    })
+                    User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
+                      console.log("Non puoi più votare")
+                    })
+                  }
+      
+                  else if (partiUser2.votato === true){
+                    res.send ("Potrai votare domani")
+                  }
+                }
+                else if(partiUser2.userName != user){
+                  console.log("Non sei tu")
+                }
+                
+              })     
+            })
+                   
+          }
+      })
+
+      //Elimina
+      partiCard.forEach(partiCard2 =>{
+        app.get(`/${partiCard2._id}/elimina`, ( req, res ) =>{
+          if (partiCard2.devoloper === userName){
+            Note.findOneAndRemove({_id: partiCard2._id },  function(err,data){
+              Note.find({}, function(err, partiCard) {
+                if (loggato === true){
+                  res.render ("userProfile", 
+                  {user : userName, partiCardList: partiCard})
+                }
+                else if (loggato === false){
+                  res.render('games', {
+                    partiCardList: partiCard
+                })
+                }
+              })
+            })
+          }
+
+          else if (partiCard.devoloper != userName){
+            Note.find({}, function(err, partiCard) {
+              if (loggato === true){
+                res.render ("userProfile", 
+                {user : userName, partiCardList: partiCard})
+              }
+              else if (loggato === false){
+                res.render('games', {
+                  partiCardList: partiCard
+              })
+              }
+            })
+          }
+        })
+      })
+  })
+})
+
 
 //Server
 
-const port = process.env.PORT || 5000;
+const port = 4000;
 app.listen(port, () => console.log(`Server Runna sull porta ${port}`));
 
 
+//Bot
 client.login (config.token);
+
+//Sblocca il non voto 
+//(che italiano sembro danilo)
+
+//Fixare così non fa partire il server
+
+var hours
+var mins
+
+function TimeCheck(){
+  console.log("Sto guardando l orario")
+  var currentTime = new Date();
+  hours = currentTime.getHours();
+  mins = currentTime.getMinutes();
+
+  ifTempo()
+}
+
+
+function ifTempo(){
+  if (hours === 24 && mins === 0){
+    console.log("Ora tutti gli user posso votare :D")
+
+    User.find ({}, function(err, partiUser){
+      partiUser.forEach(partiUser2 =>{ 
+        User.findOneAndUpdate({_id: partiUser2._id}, {"votato": false},  function(err,data){
+          console.log("Puoi votare!")
+        })
+      })
+    })
+  }
+  
+  else if (hours != 24 && mins != 0){
+    console.log ("non è ancora passo il tempo")
+    TimeCheck()
+  }
+  
+}
+
+//TimeCheck()
+
+
+/*COSE MANCANTI:
+ => modifica videogioco
+ => vote logs
+*/

@@ -1,24 +1,103 @@
 <div class="container mt-5">
-  <a href="/index" class="btn btn-primary mb-5">Go Back</a>
-  <h1>Register</h1>
   <form action="/Register" method="POST">
+      <br>
+      <h1>Register</h1>
       <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" name="email" id = "email" class="form-control" id="email" required aria-describedby="email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <br>
+        <label for="exampleInputPassword1">Email</label>
+        <br>
+        <br>
+        <input type="email"id = "email" name="email" class="form-control" required id="email">
+    </div>
+      <div class="form-group">
+          <br>
+          <label for="exampleInputEmail1">User Name</label>
+          <br>
+          <br>
+          <input type="text" name="Username" id = "Username" class="form-control" id=""user required aria-describedby="email">
       </div>
       <div class="form-group">
+          <br>
           <label for="exampleInputPassword1">Password</label>
+          <br>
+          <br>
           <input type="password"id = "password" name="password" class="form-control" required id="password">
       </div>
-
-      <div class="form-group">
-        <label for="exampleInputPassword1">Username</label>
-        <input type="text"id = "Username" name="Username" class="form-control" required>
-    </div>
-
-      <button type="submit" class="btn btn-primary">Submit</button>
+    
+      <br>
+      <button type="submit" class="btn btn-primary">Register</button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <a class = "or">or</a>
+      <a href="/login">login</a>
+      <br>
+      <br>
   </form>
-  
-   
-</div>
+<style>
+body{
+  background-color: lightblue;
+}
+
+h1{
+  text-align: center;
+  font-weight: 100;
+}
+form{
+  margin-top: 175px;
+  background-color: white;
+  width: 300px;
+  height: auto;
+  border-radius: 10px 10px 10px 10px; 
+  margin-left: 600px;
+}
+
+input{
+  border-radius: 10px 10px 10px 10px; 
+  margin-left: 20px;
+}
+
+button {
+  margin-left: 50px;
+  align-items:flex-end;
+  border-radius: 10px 10px 10px 10px; 
+background-color:#0d6efd;
+border-color:#0d6efd;
+
+display: inline-block;
+font-weight: 400;
+line-height: 1.5;
+color: #212529;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+cursor: pointer;
+-webkit-user-select: none;
+-moz-user-select: none;
+user-select: none;
+background-color: cornflowerblue;
+border: 1px solid cornflowerblue;
+padding: .375rem .75rem;
+font-size: 1rem;
+border-radius: .25rem;
+width: 200px;
+transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+label{
+  margin-left: 20px;
+}
+
+a{
+ align-items: center;
+ margin-left: 127px;
+ text-decoration: none;
+}
+
+.or{
+ align-items: center;
+ margin-left: 135px;
+ text-decoration: none;
+}
+</style>
