@@ -86,7 +86,7 @@ app.post("/aggiungi", function(req, res){
 
   });
 
-  var idGioco;
+  var idGioco = "";
 
   newNote.save(function(err,gioco) {
     idGioco = gioco.id;
@@ -396,7 +396,7 @@ Note.find({}, function(err, partiCard) {
               res.render("infoGioco", 
                     {nome : partiCard2.title, devoloper : partiCard2.devoloper,
                     img : partiCard2.logo, link : partiCard2.link, 
-                    desc : partiCard2.desc, user : userName,
+                    desc : partiCard2.desc, 
                     voti : partiCard2.voti })
           }
           else if (loggato === true){
@@ -491,6 +491,8 @@ Note.find({}, function(err, partiCard) {
           }
         })
       })
+
+      
   })
 })
 
@@ -503,46 +505,6 @@ app.listen(port, () => console.log(`Server Runna sull porta ${port}`));
 
 //Bot
 client.login (config.token);
-
-//Sblocca il non voto 
-//(che italiano sembro danilo)
-
-//Fixare così non fa partire il server
-
-var hours
-var mins
-
-function TimeCheck(){
-  console.log("Sto guardando l orario")
-  var currentTime = new Date();
-  hours = currentTime.getHours();
-  mins = currentTime.getMinutes();
-
-  ifTempo()
-}
-
-
-function ifTempo(){
-  if (hours === 24 && mins === 0){
-    console.log("Ora tutti gli user posso votare :D")
-
-    User.find ({}, function(err, partiUser){
-      partiUser.forEach(partiUser2 =>{ 
-        User.findOneAndUpdate({_id: partiUser2._id}, {"votato": false},  function(err,data){
-          console.log("Puoi votare!")
-        })
-      })
-    })
-  }
-  
-  else if (hours != 24 && mins != 0){
-    console.log ("non è ancora passo il tempo")
-    TimeCheck()
-  }
-  
-}
-
-//TimeCheck()
 
 
 /*COSE MANCANTI:
