@@ -1,5 +1,5 @@
 {
-  "name": "Gamelex",
+  "name": "gamelex",
   "version": "1.0.0",
   "main": "database.js",
   "dependencies": {
@@ -18,6 +18,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "node time.js"
+  },
+  "engines": {
+    "node": "14.x"
   },
   "repository": {
     "type": "git",
