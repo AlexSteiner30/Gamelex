@@ -502,6 +502,7 @@ app.listen(port, function(){
 
 
   Update()
+
   function TimeCheck(){
     var currentTime = new Date();
     hours = currentTime.getHours();
@@ -522,7 +523,7 @@ app.listen(port, function(){
           }
           
       else if (hours != 24 && mins != 0){
-            
+            Vote()
           }
     }
 }
