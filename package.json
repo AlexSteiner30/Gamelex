@@ -17,7 +17,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node time.js"
+    "start": "node database.js"
   },
   "engines": {
     "node": "14.x"
