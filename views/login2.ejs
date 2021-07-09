@@ -1,0 +1,99 @@
+<div class="container mt-5">
+    <form action="/login" method="POST">
+        <br>
+        <h1>Login</h1>
+        <div class="form-group">
+            <br>
+            <label for="exampleInputEmail1">User Name</label>
+            <br>
+            <br>
+            <input type="text" name="user" id = "user" class="form-control" id=""user required aria-describedby="email">
+        </div>
+        <div class="form-group">
+            <br>
+            <label for="exampleInputPassword1">Password</label>
+            <br>
+            <br>
+            <input type="password"id = "password" name="password" class="form-control" required id="password">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <a class = "or">or</a>
+        <a href="/register">register</a>
+        <br>
+        <br>
+    </form>
+</div>
+<script>
+    alert("Lo user name o la password sono sbagliate riprova")
+</script>
+<style>
+    body{
+        background-color: lightblue;
+    }
+
+    h1{
+        text-align: center;
+        font-weight: 100;
+    }
+    form{
+        margin-top: 175px;
+        background-color: white;
+        width: 300px;
+        height: auto;
+        border-radius: 10px 10px 10px 10px; 
+        margin-left: 600px;
+    }
+
+    input{
+        border-radius: 10px 10px 10px 10px; 
+        margin-left: 20px;
+    }
+
+    button {
+        margin-left: 50px;
+        align-items:flex-end;
+        border-radius: 10px 10px 10px 10px; 
+      background-color:#0d6efd;
+      border-color:#0d6efd;
+
+      display: inline-block;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #212529;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      background-color: cornflowerblue;
+      border: 1px solid cornflowerblue;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      border-radius: .25rem;
+      width: 200px;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    
+    label{
+        margin-left: 20px;
+    }
+
+    a{
+       align-items: center;
+       margin-left: 120px;
+       text-decoration: none;
+    }
+
+    .or{
+       align-items: center;
+       margin-left: 135px;
+       text-decoration: none;
+    }
+</style>

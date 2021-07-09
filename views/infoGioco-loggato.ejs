@@ -8,21 +8,12 @@
 </head>
 <body>
     <ul class="menu">
-        <br>
         <li><a href="/index">Home</a></li>
         <li><a href="/games">Video giochi</a></li>
         <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
         <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
         <li><a href = "/user"><%= user %> </a></li>
         <li><a href = "/logout">Logout</a></li>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h1>Gamelex</h1>
-        <br>
-        <h2>La miglior lista di videogiochi italiani!</h2>
-        <br>
         <br>
     </ul>
 
@@ -44,6 +35,20 @@
                 <br>
             </div>
 
+            <div  id ="Circle-Royale3" class="Circle-Royale3">
+              <%= desc %> 
+            </div>
+
+            <div class = "Circle-Royale2">
+              <br>
+              <h1 class = "Titolo-Card">Statistiche</h1>
+              <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %> </h3>
+    
+              <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+              <br>
+              <br>
+            </div>
+
         <% } else if (user != devoloper) { %>
             <div class = "Circle-Royale">
                 <br>
@@ -57,13 +62,16 @@
                 <br>
             </div>
 
+            <div  id ="Circle-Royale3" class="Circle-Royale3">
+              <%= desc %> 
+            </div>
+
             <div class = "Circle-Royale2">
                 <br>
                 <h1 class = "Titolo-Card">Statistiche</h1>
                 <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %> </h3>
       
                 <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
-                <a class="gioca-vedi" href = <%= link %> >Gioca</a>
                 <br>
                 <br>
               </div>
@@ -71,7 +79,11 @@
         <% } %>
     </div>
 
-    
+    <script>
+      
+  
+
+    </script>
     <style>
         * {
     box-sizing: border-box;
@@ -153,12 +165,21 @@
     padding-left: 30px;
     margin: 30px;
     height: auto;
+    width: 200px;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    
+  }
+  .Circle-Royale3{
+    float: left;
+    padding-left: 30px;
+    margin: 30px;
+    height: 430px;
     width: auto;
     border-radius: 10px 10px 10px 10px; 
     background-color: white;
     
   }
-  
   .Card-img{
     margin-left: auto;
     margin-right: auto;

@@ -12,6 +12,7 @@ const bcrypt = require ("bcrypt")
 const config = require("./config.json");
 
 var user
+var userName
 var loggato = false;
 
 var url = "mongodb+srv://Alex:ZicdzhMqwEHtbCT6@cluster0.bzmph.mongodb.net/myFirstDatabase";
@@ -86,13 +87,13 @@ app.post("/aggiungi", function(req, res){
 
   });
 
-  var idGioco = "";
+  let gioco_id;
 
   newNote.save(function(err,gioco) {
-    idGioco = gioco.id;
+    gioco_id = gioco.id;
  });
 
-  console.log(idGioco);
+  console.log(gioco_id);
   console.log("Salvato, db aggiornato!")
 
   const Hook1 = new Webhook("https://discord.com/api/webhooks/857985572220043274/xx4pX7hvFvkri5i6OJJIBLtjhTD95nkExgR95xTf07hwFMPyWZNQ3An_CkyyVGVcJEOa");
@@ -128,12 +129,8 @@ app.post("/aggiungi", function(req, res){
   devoloper = DevoloperGioco;
 
 
-  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${idGioco}`;
+  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${gioco_id}`;
 
-  const infogioco = new Discord.MessageEmbed()
-  .setTitle(`${NomeGioco}`)
-  .setURL (`${LinkGioco}`)
-  .setDescription(`Devoloper ${userName}\n Descrizione: ${DescGioco}\n ID: ${idGioco}` )
 
   console.log("Gioco Inviato con successo anche in privato agli staffer")
 
@@ -141,7 +138,7 @@ app.post("/aggiungi", function(req, res){
   //Hook2.send(infogioco)
 
   client.channels.cache.get(`858254918065455104`).send(msg2)
-  res.sendFile(__dirname + "/aggiungi.html")
+  res.render("aggiungi")
 })
 
 
@@ -179,7 +176,7 @@ app.get("/games", (req, res) => {
 //Register
 
 app.get("/Register", (req, res) =>{
-  res.render("register")
+  res.render ("register")
 })
 
 app.post("/Register", function (req, res)  {
@@ -210,14 +207,13 @@ app.post("/Register", function (req, res)  {
           }
           else{
             if (result === false){
-              res.send("Account create con successo");
-              res.render("index")
+              res.render ("login")
               register.save()
             }
 
             else if (result === true){
-              res.send ("La mail o il nome dell'utente sono già state utilizzate")
-              res.render ("index")
+              //res.alert("La mail o il nome dell'utente sono già state utilizzate")
+              res.render ("register2", {accountCreato : false})
             }
           }
         })
@@ -251,7 +247,7 @@ app.post ("/login", (req, res) => {
       })
     }
     else if (result === false){
-      res.send ("La mail o la password non sono corrette!")
+      res.render ("login2")
     }
   })
   
@@ -289,73 +285,29 @@ client.on('message', message => {
 
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  const args = message.content.slice(prefix.length).trim().split(' ');
-  const command = args.shift().toLowerCase();
+const args = message.content.slice(prefix.length).trim().split(' ');
+const command = args.shift().toLowerCase();
 
-  if (command === 'approva') {
-    if (!args.length) {
-      return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
-    }
+if (command === 'approva') {
+  if (!args.length) {
+    return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+  }
       
-    Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
-    {
-        if(!err){
-            var nome
-            message.channel.send("Il gioco è stato approvato correttamente!")
+      Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
+      {
+          if(!err){
+              var nome
+              message.channel.send("Il gioco è stato approvato correttamente!")
 
-            Note.findById({_id : args}, (error, data) =>{
+              Note.findById({_id : args}, (error, data) =>{
                   titolo = data.title
                   descrizione = data.desc
                   link = data.link
                   devoloper = data.devoloper
                   logo = data.logo
-            })
-
-            //Info Gioco 
-            Note.find({}, function(err, partiCard) {
-                partiCard.forEach(partiCard2 =>{
-                    app.get(`/${partiCard2._id}`, ( req, res ) =>{
-                        if (loggato === false){
-                            res.render("infoGioco", 
-                                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                                  img : partiCard2.logo, link : partiCard2.link, 
-                                  desc : partiCard2.desc, user : userName,
-                                  voti : partiCard2.voti })
-                        }
-                        else if (loggato === true){
-                            res.render ("infoGioco-loggato", 
-                              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                              img : partiCard2.logo, link : partiCard2.link, 
-                              desc : partiCard2.desc, user : userName,
-                              voti : partiCard2.voti, id : partiCard2._id })
-                        }
-                    })
-                })
-
-                partiCard.forEach(partiCard2 =>{
-                    app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
-                        if (loggato === false) {
-                            res.render("infoGioco", 
-                                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                                  img : partiCard2.logo, link : partiCard2.link, 
-                                  desc : partiCard2.desc, user : userName,
-                                  voti : partiCard2.voti })
-                        }
-                        else if (loggato === true){
-                          var numeroVoti = partiCard2.voti
-                          console.log(numeroVoti)
-                          numeroVoti + 1 //Non aggiunge il voto
-                          console.log(numeroVoti)
-                          Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": numeroVoti},  function(err,data){
-                          })
-                          Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": numeroVoti},  function(err,data){
-                          })
-                          
-                        }
-                    })
-                })
               })
 
+              Update()
           }
 
           else{
@@ -367,19 +319,19 @@ client.on('message', message => {
 }
 
   else if (command === 'rifiuta') {
-    if (!args.length) {
-      return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
-    }
+  if (!args.length) {
+    return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+  }
 
-    Note.findOneAndRemove({_id: args},  function(err,data)
-    {
-        if(!err){
+      Note.findOneAndRemove({_id: args},  function(err,data)
+      {
+          if(!err){
              message.channel.send("Il gioco è stato eliminato correttamente!")
-        }
+          }
 
-        else{
+          else{
               message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
-        }
+          }
       
       });
 
@@ -387,81 +339,118 @@ client.on('message', message => {
   }
 });
 
-//Info Gioco 
-Note.find({}, function(err, partiCard) {
-  //Info
-  partiCard.forEach(partiCard2 =>{
-      app.get(`/${partiCard2._id}`, ( req, res ) =>{
-          if (loggato === false){
-              res.render("infoGioco", 
-                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                    img : partiCard2.logo, link : partiCard2.link, 
-                    desc : partiCard2.desc, 
-                    voti : partiCard2.voti })
-          }
-          else if (loggato === true){
-              res.render ("infoGioco-loggato", 
-                {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                img : partiCard2.logo, link : partiCard2.link, 
-                desc : partiCard2.desc, user : userName,
-                voti : partiCard2.voti, id : partiCard2._id })
-          }
+//Sito giochi
+function Update(){
+  Note.find({}, function(err, partiCard) {
+    partiCard.forEach (partiCard2 =>{
+      app.get(`/${partiCard2._id}`, (req, res) =>{
+        if (loggato === false){
+          res.render("infoGioco", 
+          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+          img : partiCard2.logo, link : partiCard2.link, 
+          desc : partiCard2.desc, 
+          voti : partiCard2.voti })
+        }
+        else if (loggato === true){
+          res.render ("infoGioco-loggato", 
+            {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+            img : partiCard2.logo, link : partiCard2.link, 
+            desc : partiCard2.desc, user : userName,
+            voti : partiCard2.voti, id : partiCard2._id })
+        }     
       })
-  })
-
-  //Voto
-  partiCard.forEach(partiCard2 =>{
-      app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
-          if (loggato === false) {
-              res.render("infoGioco", 
-                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                    img : partiCard2.logo, link : partiCard2.link, 
-                    desc : partiCard2.desc, user : userName,
-                    voti : partiCard2.voti })
-          }
-          else if (loggato === true){
-
-            var numeroVoti = partiCard2.voti
-            var result = numeroVoti + 1
-            console.log(result)
-            console.log (userName)
-            User.find ({}, function(err, partiUser){
-
-              partiUser.forEach(partiUser2 =>{
-                if (partiUser2.userName === userName){
-                  console.log("Sei tu")
-                  if (partiUser2.votato === false){
-                    Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": result},  function(err,data){
-                      res.render ("infoGioco-loggato", 
-                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                        img : partiCard2.logo, link : partiCard2.link, 
-                        desc : partiCard2.desc, user : userName,
-                        voti : result, id : partiCard2._id })
+    })
+    //Voto
+    partiCard.forEach(partiCard2 =>{
+        app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
+            if (loggato === false) {
+                res.render("infoGioco", 
+                      {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                      img : partiCard2.logo, link : partiCard2.link, 
+                      desc : partiCard2.desc, user : userName,
+                      voti : partiCard2.voti })
+            }
+            else if (loggato === true){
+  
+              var numeroVoti = partiCard2.voti
+              var result = numeroVoti + 1
+              console.log(result)
+              console.log (userName)
+              User.find ({}, function(err, partiUser){
+  
+                partiUser.forEach(partiUser2 =>{
+                  if (partiUser2.userName === userName){
+                    console.log("Sei tu")
+                    if (partiUser2.votato === false){
+                      client.channels.cache.get(`858254918065455104`).send(`${partiCard2.title} è stato votato! Ora ha ${result} voti, tra poco sarà aggiornata la sua pagina`)
+                      Note.find({}, function(err, partiCard) {
+                        partiCard.forEach(partiCard2 =>{
+                          app.get(`/${partiCard2._id}`, ( req, res ) =>{
+                              if (loggato === false){
+                                  res.render("infoGioco", 
+                                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                                        img : partiCard2.logo, link : partiCard2.link, 
+                                        desc : partiCard2.desc, 
+                                        voti : partiCard2.voti })
+                              }
+                              else if (loggato === true){
+                                  Vote()
+                                  res.render ("infoGioco-loggato", 
+                                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                                    img : partiCard2.logo, link : partiCard2.link, 
+                                    desc : partiCard2.desc, user : userName,
+                                    voti : partiCard2.voti, id : partiCard2._id })
+                              }
+                          })
+                      })
                     })
-                    User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
-                      console.log("Non puoi più votare")
-                    })
+  
+                      Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": result},  function(err,data){
+                        res.render ("infoGioco-loggato", 
+                          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                          img : partiCard2.logo, link : partiCard2.link, 
+                          desc : partiCard2.desc, user : userName,
+                          voti : result, id : partiCard2._id })
+                      })
+                      User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
+                        console.log("Non puoi più votare")
+                      })
+                    }
+        
+                    else if (partiUser2.votato === true){
+                      res.send ("Potrai votare domani")
+                    }
                   }
-      
-                  else if (partiUser2.votato === true){
-                    res.send ("Potrai votare domani")
+                  else if(partiUser2.userName != user){
+                    console.log("Non sei tu")
                   }
-                }
-                else if(partiUser2.userName != user){
-                  console.log("Non sei tu")
-                }
-                
-              })     
-            })
-                   
-          }
-      })
-
-      //Elimina
-      partiCard.forEach(partiCard2 =>{
-        app.get(`/${partiCard2._id}/elimina`, ( req, res ) =>{
-          if (partiCard2.devoloper === userName){
-            Note.findOneAndRemove({_id: partiCard2._id },  function(err,data){
+                  
+                })     
+              })
+                     
+            }
+        })
+  
+    //Elimina
+    partiCard.forEach(partiCard2 =>{
+          app.get(`/${partiCard2._id}/elimina`, ( req, res ) =>{
+            if (partiCard2.devoloper === userName){
+              Note.findOneAndRemove({title: partiCard2.title },  function(err,data){
+                Note.find({}, function(err, partiCard) {
+                  if (loggato === true){
+                    res.render ("userProfile", 
+                    {user : userName, partiCardList: partiCard})
+                  }
+                  else if (loggato === false){
+                    res.render('games', {
+                      partiCardList: partiCard
+                  })
+                  }
+                })
+              })
+            }
+  
+            else if (partiCard.devoloper != userName){
               Note.find({}, function(err, partiCard) {
                 if (loggato === true){
                   res.render ("userProfile", 
@@ -473,41 +462,57 @@ Note.find({}, function(err, partiCard) {
                 })
                 }
               })
-            })
-          }
-
-          else if (partiCard.devoloper != userName){
-            Note.find({}, function(err, partiCard) {
-              if (loggato === true){
-                res.render ("userProfile", 
-                {user : userName, partiCardList: partiCard})
-              }
-              else if (loggato === false){
-                res.render('games', {
-                  partiCardList: partiCard
-              })
-              }
-            })
-          }
+            }
+          })
         })
-      })
-
-      
+  
+      }) 
   })
+}
+
+function Vote(){
+  Note.find({}, function(err, partiCard) {
+    partiCard.forEach (partiCard2 =>{
+      app.get(`/${partiCard2._id}`, (req, res) =>{
+        if (loggato === false){
+            res.render("infoGioco", 
+            {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+            img : partiCard2.logo, link : partiCard2.link, 
+            desc : partiCard2.desc, 
+            voti : partiCard2.voti })
+        }
+        else if (loggato === true){
+          res.render ("infoGioco-loggato", 
+              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+              img : partiCard2.logo, link : partiCard2.link, 
+              desc : partiCard2.desc, user : userName,
+              voti : partiCard2.voti, id : partiCard2._id })
+        }     
+      })
+    })
+  })
+}
+//Server
+const port = 5000;
+
+app.listen(port, function(){
+  console.log(`Server Runna sull porta ${port}`)
+
+  var whileBool = true
+
+
+  Update()
+ 
 })
 
-
-//Server
-
-const port = 4000;
-app.listen(port, () => console.log(`Server Runna sull porta ${port}`));
-
+exports.userName = userName
+exports.loggato = loggato
 
 //Bot
 client.login (config.token);
 
 
 /*COSE MANCANTI:
- => modifica videogioco
- => vote logs
+ => modifica videogioco (poco importante sarà disponibile più avanti)
+ => fixare il voto non fa update in tempo reale perchè non uso web socket, questo è un problema
 */

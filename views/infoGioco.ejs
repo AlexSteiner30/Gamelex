@@ -4,31 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Gioco</title>
+    <title>nome</title>
 </head>
 <body>
     <ul class="menu">
-        <br>
         <li><a href="/index">Home</a></li>
         <li><a href="/games">Video giochi</a></li>
         <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
         <li><a href = "/login">Login</a></li>
         <li><a href = "/Register">Register</a></li>
         <br>
-        <br>
-        <br>
-        <br>
-        <h1>Gamelex</h1>
-        <br>
-        <h2>La miglior lista di videogiochi italiani!</h2>
-        <br>
-        <br>
+        
     </ul>
 
-    <div class="infoGioco">
-        
-    </div>
+    <div class = "Circle-Royale">
+      <br>
+      <img  class = "Card-img" src=<%= img %> >
+      <h1 class = "Titolo-Card"><%= nome %> </h1>
+      <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
 
+      <a class="gioca-vedi" href = <%= `/login` %>  >Vota questo gioco</a>
+      <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+      <br>
+      <br>
+  </div>
+
+  <div  id ="Circle-Royale3" class="Circle-Royale3">
+    <%= desc %> 
+  </div>
+
+  <div class = "Circle-Royale2">
+      <br>
+      <h1 class = "Titolo-Card">Statistiche</h1>
+      <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %> </h3>
+
+      <a class="gioca-vedi" href = <%= `/login` %>  >Vota questo gioco</a>
+      <br>
+      <br>
+    </div>
+  </div>
     <style>
         * {
     box-sizing: border-box;
@@ -36,6 +50,16 @@
   
   body{
       background-color: lightblue;
+  }
+  .Circle-Royale3{
+    float: left;
+    padding-left: 30px;
+    margin: 30px;
+    height: 430px;
+    width: auto;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    
   }
   ul {
       list-style-type: none;
