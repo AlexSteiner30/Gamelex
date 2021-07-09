@@ -502,6 +502,33 @@ app.listen(port, function(){
 
 
   Update()
+  function TimeCheck(){
+    var currentTime = new Date();
+    hours = currentTime.getHours();
+    mins = currentTime.getMinutes();
+    
+    while (whileBool === true) {
+  
+      if (hours === 24 && mins === 0){
+            console.log("Ora tutti gli user posso votare :D")
+        
+            User.find ({}, function(err, partiUser){
+              partiUser.forEach(partiUser2 =>{ 
+                User.findOneAndUpdate({_id: partiUser2._id}, {"votato": false},  function(err,data){
+                  console.log("Puoi votare!")
+                })
+              })
+            })
+          }
+          
+      else if (hours != 24 && mins != 0){
+            
+          }
+    }
+}
+
+
+TimeCheck()
  
 })
 
