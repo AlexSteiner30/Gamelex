@@ -17,8 +17,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node time.js",
-    "pretest": "node database.js"
+    "test": "node time.js"
   },
   "repository": {
     "type": "git",
