@@ -19,35 +19,29 @@
 
     <div class = "infoGioco">
         <%if (user === devoloper){%>
-            <div class = "Circle-Royale">
-                <br>
-                <img  class = "Card-img" src=<%= img %> >
-                <h1 class = "Titolo-Card"><%= nome %> </h1>
-                <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
-      
-                <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
-                <a class="gioca-vedi" href = <%= link %> >Gioca</a>
-                <br>
-                <br>
-                <a class="gioca-vedi" href = <%= `/${id}/modifica` %> >Modifica</a>
-                <a class="gioca-vedi" href = <%= `/${id}/elimina` %> >Elimina</a>
-                <br>
-                <br>
-            </div>
-
-            <div  id ="Circle-Royale3" class="Circle-Royale3">
-              <%= desc %> 
-            </div>
-
-            <div class = "Circle-Royale2">
-              <br>
-              <h1 class = "Titolo-Card">Statistiche</h1>
-              <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %> </h3>
-    
+          <div class = "Circle-Royale">
+            <br>
+            <img  class = "Card-img" src=<%= img %> >
+            <h1 class = "Titolo-Card"><%= nome %> </h1>
+            <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
+            <h3 class="SottoTitolo-Card"><%= desc %> </h3>
+            <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %></h3>
+            <div class = "links">
               <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+              <a class="gioca-vedi" href = <%= link %> >Gioca</a>
               <br>
               <br>
+              <a class="gioca-vedi" href = <%= `/${id}/modifica` %> >Modifica</a>
+              <a class="gioca-vedi" href = <%= `/${id}/elimina` %> >Elimina</a>
             </div>
+            
+            <br>
+            <br>
+        </div>
+                
+            
+
+           
 
         <% } else if (user != devoloper) { %>
             <div class = "Circle-Royale">
@@ -55,35 +49,22 @@
                 <img  class = "Card-img" src=<%= img %> >
                 <h1 class = "Titolo-Card"><%= nome %> </h1>
                 <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
-      
-                <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
-                <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+                <h3 class="SottoTitolo-Card"><%= desc %> </h3>
+                <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %></h3>
+                <div class = "links">
+                  <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+                  <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+                </div>
+                
                 <br>
                 <br>
             </div>
 
-            <div  id ="Circle-Royale3" class="Circle-Royale3">
-              <%= desc %> 
-            </div>
-
-            <div class = "Circle-Royale2">
-                <br>
-                <h1 class = "Titolo-Card">Statistiche</h1>
-                <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %> </h3>
-      
-                <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
-                <br>
-                <br>
-              </div>
           
         <% } %>
     </div>
 
-    <script>
-      
-  
-
-    </script>
+    <script src=”/socket.io/socket.io.js”></script>
     <style>
         * {
     box-sizing: border-box;
@@ -91,6 +72,9 @@
   
   body{
       background-color: lightblue;
+  }
+  .links {
+    align-items: center;
   }
   ul {
       list-style-type: none;
@@ -123,6 +107,7 @@
     }
   
     h1{
+      text-align: center;
       font-family: sans-serif;
       text-decoration: none;
       padding-left: 20px;
@@ -154,7 +139,7 @@
     padding-left: 30px;
     margin: 30px;
     height: auto;
-    width: 300px;
+    width: 1450px;
     border-radius: 10px 10px 10px 10px; 
     background-color: white;
   }
@@ -196,6 +181,8 @@
   }
   
   .gioca-vedi{ 
+    text-align: center;
+    
     border-radius: 10px 10px 10px 10px; 
         background-color:#0d6efd;
         border-color:#0d6efd;

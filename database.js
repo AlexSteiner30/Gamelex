@@ -5,6 +5,9 @@ const bodyParser = require("body-parser")
 const { Webhook } = require('discord-webhook-node');
 const Discord = require('discord.js');
 const config = require("./config.json");
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+const reload = require('express-reload')
 
 var user
 var userName
@@ -335,36 +338,57 @@ if (command === 'approva') {
 //Sito giochi
 function Update(){
   Note.find({}, function(err, partiCard) {
+    var voti = 0
+    
     partiCard.forEach (partiCard2 =>{
       app.get(`/${partiCard2._id}`, (req, res) =>{
         if (loggato === false){
-          res.render("infoGioco", 
-          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-          img : partiCard2.logo, link : partiCard2.link, 
-          desc : partiCard2.desc, 
-          voti : partiCard2.voti })
+          Note.find({}, function(err, updateMongoose) {
+            updateMongoose.forEach (updateMongoose2 => {
+              res.render("infoGioco", 
+              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+              img : partiCard2.logo, link : partiCard2.link, 
+              desc : partiCard2.desc, 
+              voti : updateMongoose2.voti })
+              console.log (partiCard2.voti)
+            })
+          })
+          
         }
         else if (loggato === true){
-          res.render ("infoGioco-loggato", 
-            {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-            img : partiCard2.logo, link : partiCard2.link, 
-            desc : partiCard2.desc, user : userName,
-            voti : partiCard2.voti, id : partiCard2._id })
+          Note.find({}, function(err, updateMongoose) {
+            updateMongoose.forEach (updateMongoose2 => {
+              res.render ("infoGioco-loggato", 
+              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+              img : partiCard2.logo, link : partiCard2.link, 
+              desc : partiCard2.desc, user : userName,
+              voti : updateMongoose2.voti, id : partiCard2._id })
+            })
+          })
+
         }     
       })
     })
    
      //Voto
      partiCard.forEach(partiCard2 =>{
+      console.log (partiCard2.voti)
       app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
+          var voti = 0
           if (loggato === false) {
-            res.render("infoGioco", 
-                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                    img : partiCard2.logo, link : partiCard2.link, 
-                    desc : partiCard2.desc, user : userName,
-                    voti : partiCard2.voti })
+            Note.find({}, function(err, updateMongoose) {
+              updateMongoose.forEach (updateMongoose2 => {
+                res.render("infoGioco", 
+                {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                img : partiCard2.logo, link : partiCard2.link, 
+                desc : partiCard2.desc, 
+                voti : updateMongoose2.voti })
+                console.log (partiCard2.voti)
+              })
+            })
           }
           else if (loggato === true){
+            //Fare il + uno con Note.findOne ({})
           
             User.find ({}, function(err, partiUser){
 
@@ -372,19 +396,25 @@ function Update(){
                 if (partiUser2.userName === userName){
                   console.log("Sei tu")
                   if (partiUser2.votato === false){
-                    client.channels.cache.get(`858254918065455104`).send(`${partiCard2.title} è stato votato! Ora ha ${partiCard2.voti + 1} voti, tra poco sarà aggiornata la sua pagina`)
-                    Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": partiCard2.voti + 1},  function(err,data){
-                      res.render ("infoGioco-loggato", 
-                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                        img : partiCard2.logo, link : partiCard2.link, 
-                        desc : partiCard2.desc, user : userName,
-                        voti : partiCard2.voti + 1, id : partiCard2._id })
-                      
-                        Update()
+                    Note.find({}, function(err, updateMongoose) {
+                      updateMongoose.forEach (updateMongoose2 => {
+                        client.channels.cache.get(`858254916027285524`).send(`**${partiCard2.title}** è stato votato da **${userName}**! Ora ha **${updateMongoose2.voti + 1}** voti!`)
+                        Note.findOneAndUpdate({_id: updateMongoose2._id}, {"voti" : updateMongoose2.voti + 1 },  function(err,data){
+                          console.log (data.voti)
+                          res.render ("infoGioco-loggato", 
+                            {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                            img : partiCard2.logo, link : partiCard2.link, 
+                            desc : partiCard2.desc, user : userName,
+                            voti : updateMongoose2.voti + 1, id : partiCard2._id })
+    
+                        })
+                        User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
+                          console.log("Non puoi più votare")
+                        })
+                      })
                     })
-                    User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
-                      console.log("Non puoi più votare")
-                    })
+
+                   
                   }
       
                   else if (partiUser2.votato === true){
@@ -440,16 +470,20 @@ function Update(){
       }) 
 }
 
-//Server
-const port = 4000;
+//Socket IO
+io.on('connection', () =>{
+  console.log('a user is connected')
+})
 
-app.listen(port, function(){
-  
-  console.log(`Server Runna sull porta ${port}`)
+
+//Server
+var server = http.listen(4000, () => {
+  console.log('server is running on port', server.address().port);
+
 
   Update()
-
-})
+ 
+});
 
 
 //Bot

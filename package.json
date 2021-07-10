@@ -9,7 +9,10 @@
     "discord.js": "^12.5.3",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mongoose": "^5.13.2"
+    "express-reload": "^1.2.0",
+    "http": "0.0.1-security",
+    "mongoose": "^5.13.2",
+    "socket.io": "^4.1.2"
   },
   "devDependencies": {},
   "scripts": {
