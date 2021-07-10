@@ -34,37 +34,54 @@
 
     <div class = "Modulo Gioco">
       <form method="POST" action="/aggiungi">
-        <h4 class = "Nome del gioco">Nome del videogioco</h4>
 
-        <input required id = "NomeGioco" name="title" type="text"></input>
+        <div class="block">
+          <h4 class = "Nome del gioco">Nome del videogioco</h4>
 
-        <h4 class = "Link del Gioco">Link del gioco</h4>
+          <textarea required id = "NomeGioco" name="title" type="text"></textarea>
+        </div>
+        
+        <div class="block">
+          <h4 class = "Link del Gioco">Link del gioco</h4>
 
-        <input required id = "LinkGioco" name="link" type="text"></input>
+          <textarea required id = "LinkGioco" name="link" type="text"></textarea>
+        </div>
 
-        <h4 class = "Devoloper">Devoloper id (Discord)</h4>
+        <div class = "block">
+          <h4 class = "Devoloper">Devoloper id (Discord)</h4>
 
-        <input required id = "DevoloperGioco" name="devoloper" type="text"></input>
+          <textarea required id = "DevoloperGioco" name="devoloper" type="text"></textarea>
+        </div>
+ 
+        <div class = "block">
+          <h4 class = "Logo">Logo del videgioco (si consiglia 512 x 512)</h4>
 
-        <h4 class = "Logo">Logo del videgioco (si consiglia 512 x 512)</h4>
+          <textarea required id = "LogoGioco" name="logo" type="text"></textarea>
+        </div>
+     
+        <div class="block">
+          <h4 class = "DescrizioneGioco">Descrizione</h4>
 
-        <input required id = "LogoGioco" name="logo" type="text"></input>
-
-        <h4 class = "DescrizioneGioco">Descrizione (Supporta anche html)</h4>
-
-        <input required id = "DescrizioneGioco" name="desc" type="text"></input>
+          <textarea class = "desc" required id = "DescrizioneGioco" name="desc" type="text"></textarea>
+        </div>
+        
 
         <button >Inviaci il tuo gioco!</button>
       </form>
     </div>
 
     <script>
-        alert("Il tuo gioco è stato mandato correttamente ai tester!\n Ti ricordiamo, se non ancora lo hai fatto, di entrare nel server discord")
-    </script>
+      alert("Il tuo gioco è stato mandato correttamente ai tester!\n Ti ricordiamo, se non ancora lo hai fatto, di entrare nel server discord")
+  </script>
+
     <style>
       body{
     background-color:lightblue;
 }
+  .block{
+    display:inline-block;
+    margin-left: 100px;
+  }
 
 .ModuloGioco{
     padding-left: 30px;
@@ -72,13 +89,23 @@
     float: left;
 }
 
-input { 
+textarea { 
     margin:0;
     padding:0;
     display:table-cell;
     border-radius: 10px 10px 10px 10px; 
     background-color: white;
     width: 200px;
+    height: 300px;
+}
+
+.desc{
+  margin:0;
+    padding:0;
+    display:table-cell;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    width: 1130px;
     height: 300px;
 }
 

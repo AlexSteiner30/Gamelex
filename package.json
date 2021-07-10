@@ -1,26 +1,19 @@
 {
   "name": "gamelex",
   "version": "1.0.0",
+  "description": "",
   "main": "database.js",
   "dependencies": {
-    "app": "^0.1.0",
-    "assert": "^2.0.0",
-    "buffer": "^6.0.3",
-    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
     "discord-webhook-node": "^1.1.8",
     "discord.js": "^12.5.3",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "fs": "^0.0.1-security",
-    "body-parser": "^1.19.0",
-    "mongoose": "^5.13.0"
+    "mongoose": "^5.13.2"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node database.js"
-  },
-  "engines": {
-    "node": "12.13.x"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -32,6 +25,5 @@
   "bugs": {
     "url": "https://github.com/AlexSteiner30/gamelex/issues"
   },
-  "homepage": "https://github.com/AlexSteiner30/gamelex#readme",
-  "description": ""
+  "homepage": "https://github.com/AlexSteiner30/gamelex#readme"
 }

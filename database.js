@@ -4,18 +4,11 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const { Webhook } = require('discord-webhook-node');
 const Discord = require('discord.js');
-const assert = require("assert");
-const ejs = require ("ejs");
-const { kStringMaxLength } = require('buffer');
-const fs = require ("fs")
-const bcrypt = require ("bcrypt")
 const config = require("./config.json");
 
 var user
 var userName
 var loggato = false;
-
-var url = "mongodb+srv://Alex:ZicdzhMqwEHtbCT6@cluster0.bzmph.mongodb.net/myFirstDatabase";
 
 app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
@@ -129,7 +122,7 @@ app.post("/aggiungi", function(req, res){
   devoloper = DevoloperGioco;
 
 
-  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${gioco_id}`;
+  var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${gioco_id}\n Link: ${LinkGioco}`;
 
 
   console.log("Gioco Inviato con successo anche in privato agli staffer")
@@ -360,77 +353,55 @@ function Update(){
         }     
       })
     })
-    //Voto
-    partiCard.forEach(partiCard2 =>{
-        app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
-            if (loggato === false) {
-                res.render("infoGioco", 
-                      {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                      img : partiCard2.logo, link : partiCard2.link, 
-                      desc : partiCard2.desc, user : userName,
-                      voti : partiCard2.voti })
-            }
-            else if (loggato === true){
-  
-              var numeroVoti = partiCard2.voti
-              var result = numeroVoti + 1
-              console.log(result)
-              console.log (userName)
-              User.find ({}, function(err, partiUser){
-  
-                partiUser.forEach(partiUser2 =>{
-                  if (partiUser2.userName === userName){
-                    console.log("Sei tu")
-                    if (partiUser2.votato === false){
-                      client.channels.cache.get(`858254918065455104`).send(`${partiCard2.title} è stato votato! Ora ha ${result} voti, tra poco sarà aggiornata la sua pagina`)
-                      Note.find({}, function(err, partiCard) {
-                        partiCard.forEach(partiCard2 =>{
-                          app.get(`/${partiCard2._id}`, ( req, res ) =>{
-                              if (loggato === false){
-                                  res.render("infoGioco", 
-                                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                                        img : partiCard2.logo, link : partiCard2.link, 
-                                        desc : partiCard2.desc, 
-                                        voti : partiCard2.voti })
-                              }
-                              else if (loggato === true){
-                                  Vote()
-                                  res.render ("infoGioco-loggato", 
-                                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                                    img : partiCard2.logo, link : partiCard2.link, 
-                                    desc : partiCard2.desc, user : userName,
-                                    voti : partiCard2.voti, id : partiCard2._id })
-                              }
-                          })
-                      })
+   
+     //Voto
+     partiCard.forEach(partiCard2 =>{
+      app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
+          if (loggato === false) {
+            res.render("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : partiCard2.desc, user : userName,
+                    voti : partiCard2.voti })
+          }
+          else if (loggato === true){
+          
+            User.find ({}, function(err, partiUser){
+
+              partiUser.forEach(partiUser2 =>{
+                if (partiUser2.userName === userName){
+                  console.log("Sei tu")
+                  if (partiUser2.votato === false){
+                    client.channels.cache.get(`858254918065455104`).send(`${partiCard2.title} è stato votato! Ora ha ${partiCard2.voti + 1} voti, tra poco sarà aggiornata la sua pagina`)
+                    Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": partiCard2.voti + 1},  function(err,data){
+                      res.render ("infoGioco-loggato", 
+                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                        img : partiCard2.logo, link : partiCard2.link, 
+                        desc : partiCard2.desc, user : userName,
+                        voti : partiCard2.voti + 1, id : partiCard2._id })
+                      
+                        Update()
                     })
-  
-                      Note.findOneAndUpdate({_id: partiCard2._id}, {"voti": result},  function(err,data){
-                        res.render ("infoGioco-loggato", 
-                          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                          img : partiCard2.logo, link : partiCard2.link, 
-                          desc : partiCard2.desc, user : userName,
-                          voti : result, id : partiCard2._id })
-                      })
-                      User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
-                        console.log("Non puoi più votare")
-                      })
-                    }
-        
-                    else if (partiUser2.votato === true){
-                      res.send ("Potrai votare domani")
-                    }
+                    User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
+                      console.log("Non puoi più votare")
+                    })
                   }
-                  else if(partiUser2.userName != user){
-                    console.log("Non sei tu")
+      
+                  else if (partiUser2.votato === true){
+                    res.send ("Potrai votare domani")
                   }
-                  
-                })     
-              })
-                     
-            }
-        })
-  
+                }
+                else if(partiUser2.userName != user){
+                  console.log("Non sei tu")
+                }
+                
+              })     
+            })
+                   
+          }
+      })
+  })
+
     //Elimina
     partiCard.forEach(partiCard2 =>{
           app.get(`/${partiCard2._id}/elimina`, ( req, res ) =>{
@@ -467,74 +438,19 @@ function Update(){
         })
   
       }) 
-  })
 }
 
-function Vote(){
-  Note.find({}, function(err, partiCard) {
-    partiCard.forEach (partiCard2 =>{
-      app.get(`/${partiCard2._id}`, (req, res) =>{
-        if (loggato === false){
-            res.render("infoGioco", 
-            {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-            img : partiCard2.logo, link : partiCard2.link, 
-            desc : partiCard2.desc, 
-            voti : partiCard2.voti })
-        }
-        else if (loggato === true){
-          res.render ("infoGioco-loggato", 
-              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-              img : partiCard2.logo, link : partiCard2.link, 
-              desc : partiCard2.desc, user : userName,
-              voti : partiCard2.voti, id : partiCard2._id })
-        }     
-      })
-    })
-  })
-}
 //Server
-const port = 5000;
+const port = 4000;
 
 app.listen(port, function(){
+  
   console.log(`Server Runna sull porta ${port}`)
-
-  var whileBool = true
-
 
   Update()
 
-  function TimeCheck(){
-    var currentTime = new Date();
-    hours = currentTime.getHours();
-    mins = currentTime.getMinutes();
-    
-    while (whileBool === true) {
-  
-      if (hours === 24 && mins === 0){
-            console.log("Ora tutti gli user posso votare :D")
-        
-            User.find ({}, function(err, partiUser){
-              partiUser.forEach(partiUser2 =>{ 
-                User.findOneAndUpdate({_id: partiUser2._id}, {"votato": false},  function(err,data){
-                  console.log("Puoi votare!")
-                })
-              })
-            })
-          }
-          
-      else if (hours != 24 && mins != 0){
-            Vote()
-          }
-    }
-}
-
-
-TimeCheck()
- 
 })
 
-exports.userName = userName
-exports.loggato = loggato
 
 //Bot
 client.login (config.token);
