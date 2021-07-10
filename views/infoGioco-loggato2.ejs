@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= nome %> </title>
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="/index">Home</a></li>
+        <li><a href="/games">Video giochi</a></li>
+        <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
+        <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
+        <li><a href = "/user"><%= user %> </a></li>
+        <li><a href = "/logout">Logout</a></li>
+        <br>
+    </ul>
+
+    <div class = "infoGioco">
+        <%if (user === devoloper){%>
+          <div class = "Circle-Royale">
+            <br>
+            <img  class = "Card-img" src=<%= img %> >
+            <h1 class = "Titolo-Card"><%= nome %> </h1>
+            <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
+            <h3 class="SottoTitolo-Card"><%= desc %> </h3>
+            <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %></h3>
+            <div class = "links">
+              <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+              <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+              <br>
+              <br>
+              <a class="gioca-vedi" href = <%= `/${id}/modifica` %> >Modifica</a>
+              <a class="gioca-vedi" href = <%= `/${id}/elimina` %> >Elimina</a>
+            </div>
+            
+            <br>
+            <br>
+        </div>
+                
+            
+
+           
+
+        <% } else if (user != devoloper) { %>
+            <div class = "Circle-Royale">
+                <br>
+                <img  class = "Card-img" src=<%= img %> >
+                <h1 class = "Titolo-Card"><%= nome %> </h1>
+                <h3 class="SottoTitolo-Card">Devoloper: <%= devoloper %> </h3>
+                <h3 class="SottoTitolo-Card"><%= desc %> </h3>
+                <h3 class="SottoTitolo-Card">Voti &#11088: <%= voti %></h3>
+                <div class = "links">
+                  <a class="gioca-vedi" href = <%= `/${id}/vota` %>  >Vota questo gioco</a>
+                  <a class="gioca-vedi" href = <%= link %> >Gioca</a>
+                </div>
+                
+                <br>
+                <br>
+            </div>
+
+          
+        <% } %>
+    </div>
+
+    <script>
+      alert("Potrai di nuovo votare domani")
+    </script>
+    <style>
+        * {
+    box-sizing: border-box;
+  }
+  
+  body{
+      background-color: lightblue;
+  }
+  .links {
+    align-items: center;
+  }
+  ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      border-radius: 10px 10px 10px 10px; 
+      background-color: white;
+    }
+    
+    li {
+      float: left;
+    }
+    
+    li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    li a:hover:not(.active) {
+      background-color: ghostwhite;
+    }
+    
+    .active {
+      background-color: #04AA6D;
+    }
+  
+    h1{
+      text-align: center;
+      font-family: sans-serif;
+      text-decoration: none;
+      padding-left: 20px;
+      font-weight: 400;
+    }
+  
+    h2{
+      font-family: sans-serif;
+      text-decoration: none;
+      padding-left: 20px;
+      font-weight: 400;
+    }
+  
+    h3{
+      font-family: sans-serif;
+      text-decoration: none;
+      font-weight: 400;
+      text-align: center;
+    }
+  
+  .Card-img{
+    display: block;
+    padding-left: auto;
+    padding-right: auto;
+  }
+  
+  .Circle-Royale{
+    float: left;
+    padding-left: 30px;
+    margin: 30px;
+    height: auto;
+    width: 1450px;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+  }
+  
+  
+  .Circle-Royale2{
+    float: left;
+    padding-left: 30px;
+    margin: 30px;
+    height: auto;
+    width: 200px;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    
+  }
+  .Circle-Royale3{
+    float: left;
+    padding-left: 30px;
+    margin: 30px;
+    height: 430px;
+    width: 500px;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: white;
+    
+  }
+  .Card-img{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  
+  .Titolo-Card{
+    padding-left: 0px;
+  }
+  .SottoTitolo-Card{
+    text-align: justify;
+    text-justify: inter-word;
+    padding-right: 20px;
+  }
+  
+  .gioca-vedi{ 
+    text-align: center;
+    
+    border-radius: 10px 10px 10px 10px; 
+        background-color:#0d6efd;
+        border-color:#0d6efd;
+  
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        background-color: cornflowerblue;
+        border: 1px solid cornflowerblue;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+  
+      </style>
+</body>
+</html>

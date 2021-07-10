@@ -283,7 +283,9 @@ client.on('message', message => {
 
 const args = message.content.slice(prefix.length).trim().split(' ');
 const command = args.shift().toLowerCase();
+  //if(message.member.roles.has(role.id)) {
 
+  //}
 if (command === 'approva') {
   if (!args.length) {
     return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
@@ -348,7 +350,7 @@ function Update(){
               res.render("infoGioco", 
               {nome : partiCard2.title, devoloper : partiCard2.devoloper,
               img : partiCard2.logo, link : partiCard2.link, 
-              desc : partiCard2.desc, 
+              desc : updateMongoose2.desc, 
               voti : updateMongoose2.voti })
               console.log (partiCard2.voti)
             })
@@ -361,7 +363,7 @@ function Update(){
               res.render ("infoGioco-loggato", 
               {nome : partiCard2.title, devoloper : partiCard2.devoloper,
               img : partiCard2.logo, link : partiCard2.link, 
-              desc : partiCard2.desc, user : userName,
+              desc : updateMongoose2.desc, user : userName,
               voti : updateMongoose2.voti, id : partiCard2._id })
             })
           })
@@ -418,7 +420,16 @@ function Update(){
                   }
       
                   else if (partiUser2.votato === true){
-                    res.send ("Potrai votare domani")
+                    Note.find({}, function(err, updateMongoose) {
+                      updateMongoose.forEach (updateMongoose2 => {
+                        res.render ("infoGioco-loggato2", 
+                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                        img : partiCard2.logo, link : partiCard2.link, 
+                        desc : partiCard2.desc, user : userName,
+                        voti : updateMongoose2.voti, id : partiCard2._id })
+                      })
+                    })
+                    
                   }
                 }
                 else if(partiUser2.userName != user){
@@ -466,8 +477,81 @@ function Update(){
             }
           })
         })
+
+        //Modifica
+      partiCard.forEach(partiCard2 =>{
+        console.log (partiCard2.voti)
+        app.get(`/${partiCard2._id}/modifica`, ( req, res ) =>{
+            var voti = 0
+            if (loggato === false) {
+              Note.find({}, function(err, updateMongoose) {
+                updateMongoose.forEach (updateMongoose2 => {
+                  res.render("infoGioco", 
+                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                  img : partiCard2.logo, link : partiCard2.link, 
+                  desc : partiCard2.desc, 
+                  voti : updateMongoose2.voti })
+                  console.log (partiCard2.voti)
+                })
+              })
+            }
+            else if (loggato === true){
+              Note.find({}, function(err, updateMongoose) {
+                updateMongoose.forEach (updateMongoose2 => {
+                  res.render ("update",
+                  { id : updateMongoose2._id
+
+                  })
+                  
+                })
+              })
+            }
+        })
+      })
+
+      partiCard.forEach(partiCard2 =>{
+        console.log (partiCard2.voti)
+        app.post(`/${partiCard2._id}/modifica`, ( req, res ) =>{
+            var voti = 0
+            if (loggato === false) {
+              Note.find({}, function(err, updateMongoose) {
+                updateMongoose.forEach (updateMongoose2 => {
+                  res.render("infoGioco", 
+                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                  img : partiCard2.logo, link : partiCard2.link, 
+                  desc : partiCard2.desc, 
+                  voti : updateMongoose2.voti })
+                  console.log (partiCard2.voti)
+                })
+              })
+            }
+            else if (loggato === true){
+              Note.find({}, function(err, updateMongoose) {
+                updateMongoose.forEach (updateMongoose2 => {
+                  res.render ("update",
+                  { id : updateMongoose2._id
+
+                  })
+                  var updateDesc = req.body.desc
+                  client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
+                  Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
+                    console.log (data.voti)
+                    res.render ("infoGioco-loggato", 
+                      {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                      img : partiCard2.logo, link : partiCard2.link, 
+                      desc : req.body.desc, user : userName,
+                      voti : updateMongoose2.voti, id : partiCard2._id })
+
+                  })  
+                })
+              })
+            }
+        })
+      })
   
       }) 
+
+    
 }
 
 //Socket IO
