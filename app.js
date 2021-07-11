@@ -584,6 +584,5 @@ client.login (config.token);
 
 
 /*COSE MANCANTI:
- => modifica videogioco (poco importante sarà disponibile più avanti)
- => fixare il voto non fa update in tempo reale perchè non uso web socket, questo è un problema
+ => mobile friendly
 */

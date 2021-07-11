@@ -4,6 +4,8 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const { Webhook } = require('discord-webhook-node');
 const Discord = require('discord.js');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 const config = require("./config.json");
 
 mongoose.connect("mongodb+srv://Alex:ZicdzhMqwEHtbCT6@cluster0.bzmph.mongodb.net/myFirstDatabase")
@@ -30,13 +32,14 @@ const Note = mongoose.model("Videogiochi-non-approvati", notesSchema)
 
 const User = mongoose.model("login", userSchema)
 
-var whileBool = true
+function Time(){
+  var whileBool = true
 
-var currentTime = new Date();
-var hours = currentTime.getHours();
-var mins = currentTime.getMinutes();
+  var currentTime = new Date();
+  var hours = currentTime.getHours();
+  var mins = currentTime.getMinutes();
     
-while (whileBool === true) {
+  while (whileBool === true) {
   
     if (hours === 24 && mins === 0){
       console.log("Ora tutti gli user posso votare :D")
@@ -55,5 +58,14 @@ while (whileBool === true) {
     }
 
    
+  }
 }
   
+//Server
+var server = http.listen(process.env.PORT || 4000, () => {
+  console.log('server is running on port', server.address().port);
+
+
+  Time()
+ 
+});
