@@ -86,7 +86,22 @@ app.post("/aggiungi", function(req, res){
   let gioco_id;
 
   newNote.save(function(err,gioco) {
+    var devoloper;
+    var NomeGioco = req.body.title;
+    var LinkGioco = req.body.link;
+    var DevoloperGioco = req.body.devoloper;
+    var LogoGioco = req.body.logo;
+    var DescGioco = req.body.desc;
+
+    devoloper = DevoloperGioco;
+
     gioco_id = gioco.id;
+    
+    var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${gioco.id}\nLink: ${LinkGioco}`
+  
+    client.channels.cache.get(`858254918065455104`).send(msg2)
+
+
  });
 
   console.log(gioco_id);
@@ -94,7 +109,7 @@ app.post("/aggiungi", function(req, res){
 
   const Hook1 = new Webhook("https://discord.com/api/webhooks/857985572220043274/xx4pX7hvFvkri5i6OJJIBLtjhTD95nkExgR95xTf07hwFMPyWZNQ3An_CkyyVGVcJEOa");
  
-  var ruolo = "858018579218563092";
+  var ruolo = "863520777897902100";
   var devoloper;
 
   var NomeGioco = req.body.title;
@@ -113,16 +128,7 @@ app.post("/aggiungi", function(req, res){
 
   const Hook2 = new Webhook("https://discord.com/api/webhooks/858255775248285726/DgZvLIZWxW-kKIctavprvIkY4isMJ4WoBYjtUkpI1JSWrJIXmOy86YSzu-7ak7p5F48S");
   
-  var devoloper;
-
-    
-  var NomeGioco = req.body.title;
-  var LinkGioco = req.body.link;
-  var DevoloperGioco = req.body.devoloper;
-  var LogoGioco = req.body.logo;
-  var DescGioco = req.body.desc;
-
-  devoloper = DevoloperGioco;
+  
 
 
   var msg2 = `Nome: ${NomeGioco}\nDevoloper: <@${devoloper}>\nDescrizione: ${NomeGioco}\nID: ${gioco_id}\n Link: ${LinkGioco}`;
@@ -133,7 +139,7 @@ app.post("/aggiungi", function(req, res){
   //Hook2.send(msg2);
   //Hook2.send(infogioco)
 
-  client.channels.cache.get(`858254918065455104`).send(msg2)
+  //client.channels.cache.get(`858254918065455104`).send(msg2)
   res.render("aggiungi")
 })
 
