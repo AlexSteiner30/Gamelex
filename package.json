@@ -2,7 +2,7 @@
   "name": "gamelex",
   "version": "1.0.0",
   "description": "",
-  "main": "database.js",
+  "main": "app.js",
   "dependencies": {
     "body-parser": "^1.19.0",
     "discord-webhook-node": "^1.1.8",

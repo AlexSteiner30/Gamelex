@@ -281,59 +281,62 @@ client.on('message', message => {
 
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-const args = message.content.slice(prefix.length).trim().split(' ');
-const command = args.shift().toLowerCase();
-  //if(message.member.roles.has(role.id)) {
+  const args = message.content.slice(prefix.length).trim().split(' ');
+  const command = args.shift().toLowerCase();
+  if (message.author.id === "850357951452676106") {
+    if (command === 'approva') {
+      if (!args.length) {
+        return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+      }
+          
+          Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
+          {
+              if(!err){
+                  var nome
+                  message.channel.send("Il gioco è stato approvato correttamente!")
+    
+                  Note.findById({_id : args}, (error, data) =>{
+                      titolo = data.title
+                      descrizione = data.desc
+                      link = data.link
+                      devoloper = data.devoloper
+                      logo = data.logo
+                  })
+    
+                  Update()
+              }
+    
+              else{
+                  message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
+              }
+          
+          });
+    
+    }
 
-  //}
-if (command === 'approva') {
-  if (!args.length) {
-    return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+    else if (command === 'rifiuta') {
+      if (!args.length) {
+        return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+      }
+    
+          Note.findOneAndRemove({_id: args},  function(err,data)
+          {
+              if(!err){
+                 message.channel.send("Il gioco è stato eliminato correttamente!")
+              }
+    
+              else{
+                  message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
+              }
+          
+          });
+    
+    
+      }
   }
-      
-      Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
-      {
-          if(!err){
-              var nome
-              message.channel.send("Il gioco è stato approvato correttamente!")
 
-              Note.findById({_id : args}, (error, data) =>{
-                  titolo = data.title
-                  descrizione = data.desc
-                  link = data.link
-                  devoloper = data.devoloper
-                  logo = data.logo
-              })
-
-              Update()
-          }
-
-          else{
-              message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
-          }
-      
-      });
-
-}
-
-  else if (command === 'rifiuta') {
-  if (!args.length) {
-    return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
-  }
-
-      Note.findOneAndRemove({_id: args},  function(err,data)
-      {
-          if(!err){
-             message.channel.send("Il gioco è stato eliminato correttamente!")
-          }
-
-          else{
-              message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
-          }
-      
-      });
-
-
+  else if (message.author.id != "838302280548614184"){
+    message.channel.send("Non puoi farlo!")
   }
 });
 
