@@ -564,7 +564,7 @@ io.on('connection', () =>{
 
 
 //Server
-var server = http.listen(4000, () => {
+var server = http.listen(process.env.PORT || 4000, () => {
   console.log('server is running on port', server.address().port);
 
 
