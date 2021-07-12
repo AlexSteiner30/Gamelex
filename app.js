@@ -283,6 +283,10 @@ app.get("/user", (req, res) => {
   })
 })
 
+app.get("/DoesntSupportMobile", (req, res) => {
+  res.render ("noPhone")
+})
+
 client.on('message', message => {
 
   if (!message.content.startsWith(prefix) || message.author.bot) return;

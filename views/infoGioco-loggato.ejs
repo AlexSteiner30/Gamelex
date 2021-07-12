@@ -64,7 +64,15 @@
         <% } %>
     </div>
 
-    <script src=”/socket.io/socket.io.js”></script>
+      
+<script>
+
+  if (window.innerWidth < 740){
+    location.replace("DoesntSupportMobile")
+    
+  }
+</script>
+
     <style>
         * {
     box-sizing: border-box;
