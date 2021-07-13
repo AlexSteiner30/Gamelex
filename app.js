@@ -47,8 +47,14 @@ const User = mongoose.model("login", userSchema)
  
 app.get('/', (req, res) => {
   Note.find({}, function(err, partiCard) {
-    res.render('games', {
-      partiCardList: partiCard
+    if (loggato === true){
+      res.render ("games-login", {user : userName, partiCardList: partiCard})
+    }
+    else if (loggato === false){
+      res.render('games', {
+        partiCardList: partiCard
+    })
+    }
   })
 })
 
