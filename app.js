@@ -352,26 +352,26 @@ function Update(){
     partiCard.forEach (partiCard2 =>{
       app.get(`/${partiCard2._id}`, (req, res) =>{
         if (loggato === false){
-          Note.find({}, function(err, updateMongoose) {
-            updateMongoose.forEach (updateMongoose2 => {
-              res.render("infoGioco", 
+          //find by id
+          Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+            res.render("infoGioco", 
               {nome : partiCard2.title, devoloper : partiCard2.devoloper,
               img : partiCard2.logo, link : partiCard2.link, 
-              desc : updateMongoose2.desc, 
-              voti : updateMongoose2.voti })
+              desc : updateMongoose.desc, 
+              voti : updateMongoose.voti })
               console.log (partiCard2.voti)
-            })
           })
           
         }
         else if (loggato === true){
           Note.find({}, function(err, updateMongoose) {
-            updateMongoose.forEach (updateMongoose2 => {
-              res.render ("infoGioco-loggato", 
-              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-              img : partiCard2.logo, link : partiCard2.link, 
-              desc : updateMongoose2.desc, user : userName,
-              voti : updateMongoose2.voti, id : partiCard2._id })
+            Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+              res.render("infoGioco-loggato", 
+                {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                img : partiCard2.logo, link : partiCard2.link, 
+                desc : updateMongoose.desc, id : partiCard2._id, 
+                voti : updateMongoose.voti, user : userName })
+                console.log (partiCard2.voti)
             })
           })
 
@@ -385,42 +385,40 @@ function Update(){
       app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
           var voti = 0
           if (loggato === false) {
-            Note.find({}, function(err, updateMongoose) {
-              updateMongoose.forEach (updateMongoose2 => {
-                res.render("infoGioco", 
+            Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+              res.render("infoGioco", 
                 {nome : partiCard2.title, devoloper : partiCard2.devoloper,
                 img : partiCard2.logo, link : partiCard2.link, 
-                desc : partiCard2.desc, 
-                voti : updateMongoose2.voti })
+                desc : updateMongoose.desc, 
+                voti : updateMongoose.voti })
                 console.log (partiCard2.voti)
-              })
             })
           }
           else if (loggato === true){
             //Fare il + uno con Note.findOne ({})
           
             User.find ({}, function(err, partiUser){
-
+              //
               partiUser.forEach(partiUser2 =>{
                 if (partiUser2.userName === userName){
                   console.log("Sei tu")
                   if (partiUser2.votato === false){
-                    Note.find({}, function(err, updateMongoose) {
-                      updateMongoose.forEach (updateMongoose2 => {
-                        client.channels.cache.get(`858254916027285524`).send(`**${partiCard2.title}** è stato votato da **${userName}**! Ora ha **${updateMongoose2.voti + 1}** voti!`)
-                        Note.findOneAndUpdate({_id: updateMongoose2._id}, {"voti" : updateMongoose2.voti + 1 },  function(err,data){
+                    Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                      
+                     
+                        client.channels.cache.get(`858254916027285524`).send(`**${partiCard2.title}** è stato votato da **${userName}**! Ora ha **${updateMongoose.voti + 1}** voti!`)
+                        Note.findOneAndUpdate({_id: updateMongoose._id}, {"voti" : updateMongoose.voti + 1 },  function(err,data){
                           console.log (data.voti)
                           res.render ("infoGioco-loggato", 
                             {nome : partiCard2.title, devoloper : partiCard2.devoloper,
                             img : partiCard2.logo, link : partiCard2.link, 
                             desc : partiCard2.desc, user : userName,
-                            voti : updateMongoose2.voti + 1, id : partiCard2._id })
+                            voti : updateMongoose.voti + 1, id : partiCard2._id })
     
                         })
                         User.findOneAndUpdate({userName: userName}, {"votato": true},  function(err,data){
                           console.log("Non puoi più votare")
                         })
-                      })
                     })
 
                    
@@ -428,12 +426,13 @@ function Update(){
       
                   else if (partiUser2.votato === true){
                     Note.find({}, function(err, updateMongoose) {
-                      updateMongoose.forEach (updateMongoose2 => {
-                        res.render ("infoGioco-loggato2", 
-                        {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                        img : partiCard2.logo, link : partiCard2.link, 
-                        desc : partiCard2.desc, user : userName,
-                        voti : updateMongoose2.voti, id : partiCard2._id })
+                      Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                        res.render("infoGioco-loggato2", 
+                          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                          img : partiCard2.logo, link : partiCard2.link, 
+                          desc : updateMongoose.desc, 
+                          voti : updateMongoose.voti, user : userName })
+                          console.log (partiCard2.voti)
                       })
                     })
                     
