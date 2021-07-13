@@ -430,7 +430,7 @@ function Update(){
                         res.render("infoGioco-loggato2", 
                           {nome : partiCard2.title, devoloper : partiCard2.devoloper,
                           img : partiCard2.logo, link : partiCard2.link, 
-                          desc : updateMongoose.desc, 
+                          desc : updateMongoose.desc, id : partiCard2._id, 
                           voti : updateMongoose.voti, user : userName })
                           console.log (partiCard2.voti)
                       })
