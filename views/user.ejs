@@ -61,18 +61,21 @@
       <% }) %>
     </div>
 
-    <script>
-      if (window.innerWidth < 740){
-        location.replace("DoesntSupportMobile")
-        
-      }
-    
-    </script>
     <style>
       * {
   box-sizing: border-box;
 }
+@media screen and (max-width: 600px) {
+    li{
+      float: none;
+      text-align: left;
+    }
 
+    a {
+      text-align: left;
+      margin-left: 0px;
+    }
+  }
 body{
     background-color: lightblue;
 }

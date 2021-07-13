@@ -7,7 +7,6 @@ const Discord = require('discord.js');
 const config = require("./config.json");
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-const reload = require('express-reload')
 
 var user
 var userName
@@ -283,9 +282,6 @@ app.get("/user", (req, res) => {
   })
 })
 
-app.get("/DoesntSupportMobile", (req, res) => {
-  res.render ("noPhone")
-})
 
 client.on('message', message => {
 

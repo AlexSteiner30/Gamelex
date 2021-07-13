@@ -41,30 +41,35 @@
     </form>
 </div>
 
-<script>
-    if (window.innerWidth < 740){
-      location.replace("DoesntSupportMobile")
-      
-    }
-  
-  </script>
   
 <style>
-    body{
-        background-color: lightblue;
+    @media only screen and (min-width: 600px) {
+        form{
+        background-color: white;
+        margin: auto;
+        margin-top: 50%;
+        width: 300px;
+        height: auto;
+        border-radius: 10px 10px 10px 10px; 
     }
+    }
+    
+body{
+  background-color: rgb(8, 8, 94);
+}
 
     h1{
+        color: white;
         text-align: center;
         font-weight: 100;
     }
     form{
-        margin-top: 175px;
-        background-color: white;
+        background-color:rgb(38, 51, 45);
+        margin: auto;
+        margin-top: 150px;
         width: 300px;
         height: auto;
         border-radius: 10px 10px 10px 10px; 
-        margin-left: 600px;
     }
 
     input{
@@ -100,16 +105,19 @@
     }
     
     label{
+        color: white;
         margin-left: 20px;
     }
 
     a{
+        color: white;
        align-items: center;
        margin-left: 120px;
        text-decoration: none;
     }
 
     .or{
+        color: white;
        align-items: center;
        margin-left: 135px;
        text-decoration: none;

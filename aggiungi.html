@@ -66,103 +66,132 @@
         </div>
         
 
-        <button >Inviaci il tuo gioco!</button>
+        <button ><a class = "button">Inviaci il tuo gioco!</a></button>
       </form>
     </div>
 
+ 
     <style>
       body{
-    background-color:lightblue;
-}
-  .block{
-    display:inline-block;
-    margin-left: 100px;
-  }
-
-.ModuloGioco{
-    padding-left: 30px;
-    margin: 30px;
-    float: left;
-}
-
-textarea { 
-    margin:0;
-    padding:0;
-    display:table-cell;
-    border-radius: 10px 10px 10px 10px; 
-    background-color: white;
-    width: 200px;
-    height: 300px;
-}
-
-.desc{
-  margin:0;
-    padding:0;
-    display:table-cell;
-    border-radius: 10px 10px 10px 10px; 
-    background-color: white;
-    width: 1130px;
-    height: 300px;
-}
-
-button{ 
-    border-radius: 10px 10px 10px 10px; 
-    background-color: white;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 10px 10px 10px 10px; 
-    background-color: white;
-  }
-  
-  li {
-    float: left;
-  }
-  
-  li a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  li a:hover:not(.active) {
-    background-color: ghostwhite;
-  }
-  
-  .active {
-    background-color: #04AA6D;
-  }
-
-  h1{
-    font-family: sans-serif;
-    text-decoration: none;
-    padding-left: 20px;
-    font-weight: 400;
-  }
-
-  h2{
-    font-family: sans-serif;
-    text-decoration: none;
-    padding-left: 20px;
-    font-weight: 400;
-  }
-
-  h3{
-    font-family: sans-serif;
-    text-decoration: none;
-    font-weight: 400;
-    text-align: center;
-  }
-
-
-    </style>
+          background-color: rgb(8, 8, 94);
+      }
+      .button{
+        color: white;
+      }
+        .block{
+          display:inline-block;
+          margin-left: 100px;
+        }
+      
+      .ModuloGioco{
+          padding-left: 30px;
+          margin: 30px;
+          float: left;
+      }
+      
+      textarea { 
+          margin:0;
+          padding:0;
+          display:table-cell;
+          border-radius: 10px 10px 10px 10px; 
+          background-color:rgb(38, 51, 45);;
+          width: 200px;
+          height: 300px;
+      }
+      
+      @media screen and (max-width: 600px) {
+          li{
+            float: none;
+            text-align: left;
+          }
+      
+          a {
+            text-align: left;
+            margin-left: 0px;
+          }
+      
+          .desc{
+        margin:0;
+          padding:0;
+          display:table-cell;
+          border-radius: 10px 10px 10px 10px; 
+          background-color: white;
+          width: 100%;
+          height: 300px;
+      }
+        }
+      
+      .desc{
+        margin:0;
+          padding:0;
+          display:table-cell;
+          border-radius: 10px 10px 10px 10px; 
+          background-color: rgb(38, 51, 45);
+          width: 1130px;
+          height: 300px;
+      }
+      
+      button{ 
+          border-radius: 10px 10px 10px 10px; 
+          background-color: rgb(38, 51, 45);
+      }
+      
+      ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          border-radius: 10px 10px 10px 10px; 
+          background-color: rgb(38, 51, 45);
+        }
+        
+        li {
+          float: left;
+        }
+        
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        li a:hover:not(.active) {
+          background-color:rgb(42, 56, 49);
+        }
+        
+        .active {
+          background-color: #04AA6D;
+        }
+      
+        h1{
+          color: white;
+          font-family: sans-serif;
+          text-decoration: none;
+          padding-left: 20px;
+          font-weight: 400;
+        }
+      
+        h2{
+          color: white;
+          font-family: sans-serif;
+          text-decoration: none;
+          padding-left: 20px;
+          font-weight: 400;
+        }
+      
+        h4{
+          color: white;
+          font-family: sans-serif;
+          text-decoration: none;
+          font-weight: 400;
+          text-align: center;
+        }
+      
+      
+          </style>
 
   </body>
 </html>
