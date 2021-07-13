@@ -324,7 +324,6 @@ client.on('message', message => {
       if (!args.length) {
         return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
       }
-    
           Note.findOneAndRemove({_id: args},  function(err,data)
           {
               if(!err){

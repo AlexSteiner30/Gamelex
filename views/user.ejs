@@ -61,11 +61,29 @@
       <% }) %>
     </div>
 
+   
     <style>
+
       * {
   box-sizing: border-box;
 }
-@media screen and (max-width: 600px) {
+
+body{
+    background-color: rgb(8, 8, 94);
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px 10px 10px 10px; 
+    background-color: rgb(38, 51, 45);
+  }
+  
+  li {
+    float: left;
+  }
+  @media screen and (max-width: 600px) {
     li{
       float: none;
       text-align: left;
@@ -76,25 +94,10 @@
       margin-left: 0px;
     }
   }
-body{
-    background-color: lightblue;
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 10px 10px 10px 10px; 
-    background-color: white;
-  }
-  
-  li {
-    float: left;
-  }
   
   li a {
     display: block;
-    color: black;
+    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -102,7 +105,7 @@ ul {
   }
   
   li a:hover:not(.active) {
-    background-color: ghostwhite;
+    background-color: rgb(42, 56, 49);
   }
   
   .active {
@@ -110,6 +113,7 @@ ul {
   }
 
   h1{
+    color: white;
     font-family: sans-serif;
     text-decoration: none;
     padding-left: 20px;
@@ -117,6 +121,7 @@ ul {
   }
 
   h2{
+    color: white;
     font-family: sans-serif;
     text-decoration: none;
     padding-left: 20px;
@@ -124,6 +129,7 @@ ul {
   }
 
   h3{
+    color: white;
     font-family: sans-serif;
     text-decoration: none;
     font-weight: 400;
@@ -143,7 +149,7 @@ ul {
   height: auto;
   width: 300px;
   border-radius: 10px 10px 10px 10px; 
-  background-color: white;
+  background-color: rgb(38, 51, 45);
 }
 
 
@@ -154,7 +160,7 @@ ul {
   height: auto;
   width: 300px;
   border-radius: 10px 10px 10px 10px; 
-  background-color: white;
+  background-color: rgb(38, 51, 45);
   
 }
 
@@ -162,6 +168,15 @@ ul {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+.Card-img2{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 512px;
+  width: 512px;
+
 }
 
 .Titolo-Card{
