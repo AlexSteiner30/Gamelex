@@ -480,21 +480,31 @@ function Update(){
           })
           
         }
-        else if (loggato === true){
+        else if (loggato === true){ //Qui errore
           User.find({}, function (err, user){
             user.forEach (user2 =>{
-              
-                if (user2.ip === req.ipInfo.ip){
-                  res.render ("infoGioco-loggato", {user : userName, partiCardList: partiCard})
+              if (user2.userName === userName){
+                if (user.ip === req.ipInfo.ip){
+                  res.render ("infoGioco-loggato", 
+                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                  img : partiCard2.logo, link : partiCard2.link, 
+                  desc : partiCard2.desc, user : userName,
+                  voti : updateMongoose.voti, id : partiCard2._id })
                 }
-                else if(user2.ip != req.ipInfo.ip){
+                else if(user.ip != req.ipInfo.ip){
                   res.render('infoGioco', {
                     partiCardList: partiCard
                   })
                 }
+              }
+    
+              else  {
+                console.log ("Non corrisponde al tuo user name")
+              }
             })
             
           })
+         
           
 
         }     
