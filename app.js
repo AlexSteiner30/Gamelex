@@ -89,7 +89,7 @@ app.get("/aggiungi", (req, res) => {
       User.find({}, function (err, user){
         user.forEach (user2 =>{
           if (user2.userName === userName){
-            if (use2r.ip === req.ipInfo.ip){
+            if (user2.ip === req.ipInfo.ip){
               res.sendFile (__dirname + "/aggiungi.html")
             }
             else if(user2.ip != req.ipInfo.ip){
