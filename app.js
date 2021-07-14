@@ -52,15 +52,24 @@ app.get('/', (req, res) => {
   console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
-      User.find({userName  : userName}, function (err, user){
-        if (user.ip === req.ipInfo.ip){
-          res.render ("games-login", {user : userName, partiCardList: partiCard})
-        }
-        else if(user.ip != req.ipInfo.ip){
-          res.render('games', {
-            partiCardList: partiCard
-          })
-        }
+      User.find({}, function (err, user){
+        user.forEach (user2 =>{
+          if (user2.userName === userName){
+            if (user.ip === req.ipInfo.ip){
+              res.render ("games-login", {user : userName, partiCardList: partiCard})
+            }
+            else if(user.ip != req.ipInfo.ip){
+              res.render('games', {
+                partiCardList: partiCard
+              })
+            }
+          }
+
+          else  {
+            console.log ("Non corrisponde al tuo user name")
+          }
+        })
+        
       })
      
     }
@@ -77,28 +86,32 @@ app.get("/aggiungi", (req, res) => {
   console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
-      User.find({userName  : userName}, function (err, user){
-        console.log (user.ip)
-        if (user.ip === req.ipInfo.ip){
-          console.log ("è il tuo ip")
-          res.sendFile(__dirname + "/aggiugni.html")
-        }
-        else if(user.ip != req.ipInfo.ip){
-          console.log ("Non è il tuo ip")
-          res.render('games', {
-            partiCardList: partiCard
-          })
-        }
+      User.find({}, function (err, user){
+        user.forEach (user2 =>{
+          if (user2.userName === userName){
+            if (user.ip === req.ipInfo.ip){
+              res.sendFile (__dirname + "/aggiungi.html")
+            }
+            else if(user.ip != req.ipInfo.ip){
+              res.render('games', {
+                partiCardList: partiCard
+              })
+            }
+          }
+
+          else  {
+            console.log ("Non corrisponde al tuo user name")
+          }
+        })
+        
       })
      
     }
-
     else if (loggato === false){
-      Note.find({}, function(err, partiCard) {
-        res.render ("games", {partiCardList : partiCard})
-      })
+      res.render('games', {
+        partiCardList: partiCard
+    })
     }
-    
   })
 
 })
