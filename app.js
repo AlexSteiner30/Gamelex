@@ -88,20 +88,16 @@ app.get("/aggiungi", (req, res) => {
     if (loggato === true){
       User.find({}, function (err, user){
         user.forEach (user2 =>{
-          if (user2.userName === userName){
-            if (user.ip === req.ipInfo.ip){
+          
+          if (user.ip === req.ipInfo.ip){
               res.sendFile (__dirname + "/aggiungi.html")
-            }
-            else if(user.ip != req.ipInfo.ip){
+          }
+          else if(user.ip != req.ipInfo.ip){
               res.render('games', {
                 partiCardList: partiCard
               })
-            }
           }
-
-          else  {
-            console.log ("Non corrisponde al tuo user name")
-          }
+  
         })
         
       })
