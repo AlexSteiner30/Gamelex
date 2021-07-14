@@ -483,7 +483,7 @@ function Update(){
         else if (loggato === true){
           User.find({}, function (err, user){
             user.forEach (user2 =>{
-              if (user2.userName === userName){
+              
                 if (user2.ip === req.ipInfo.ip){
                   res.render ("infoGioco-loggato", {user : userName, partiCardList: partiCard})
                 }
@@ -492,11 +492,6 @@ function Update(){
                     partiCardList: partiCard
                   })
                 }
-              }
-    
-              else if (user2.userName != userName){ 
-                console.log ("Non corrisponde al tuo user name")
-              }
             })
             
           })
