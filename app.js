@@ -37,7 +37,8 @@ const userSchema = {
   email : String,
   password : String,
   userName : String,
-  votato : Boolean
+  votato : Boolean,
+  ip : String
 }
 
 
@@ -48,10 +49,20 @@ const User = mongoose.model("login", userSchema)
 app.use(expressip().getIpInfoMiddleware);
 
 app.get('/', (req, res) => {
-  res.send(req.ipInfo);
+  console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
-      res.render ("games-login", {user : userName, partiCardList: partiCard})
+      User.find({userName  : userName}, function (err, user){
+        if (user.ip === req.ipInfo.ip){
+          res.render ("games-login", {user : userName, partiCardList: partiCard})
+        }
+        else if(user.ip != req.ipInfo.ip){
+          res.render('games', {
+            partiCardList: partiCard
+          })
+        }
+      })
+     
     }
     else if (loggato === false){
       res.render('games', {
