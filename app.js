@@ -72,6 +72,7 @@ app.get('/', (req, res) => {
   })
 })
 
+app.use(expressip().getIpInfoMiddleware);
 app.get("/aggiungi", (req, res) => {
   console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
@@ -99,6 +100,7 @@ app.get("/aggiungi", (req, res) => {
 
 })
 
+app.use(expressip().getIpInfoMiddleware);
 app.post("/aggiungi", function(req, res){
   let newNote = new Note({
     title: req.body.title,
@@ -171,7 +173,7 @@ app.post("/aggiungi", function(req, res){
   res.render("aggiungi")
 })
 
-
+app.use(expressip().getIpInfoMiddleware);
 app.get("/index", (req, res) => {
   console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
@@ -196,6 +198,7 @@ app.get("/index", (req, res) => {
   })
 })
 
+app.use(expressip().getIpInfoMiddleware);
 app.get("/games", (req, res) => {
   console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
@@ -221,11 +224,12 @@ app.get("/games", (req, res) => {
 })
 
 //Register
-
+app.use(expressip().getIpInfoMiddleware);
 app.get("/Register", (req, res) =>{
   res.render ("register")
 })
 
+app.use(expressip().getIpInfoMiddleware);
 app.post("/Register", function (req, res)  {
 
   var mailCheck = req.body.email
@@ -271,11 +275,13 @@ app.post("/Register", function (req, res)  {
 
 //Login
 
+app.use(expressip().getIpInfoMiddleware);
 app.get("/login", async (req, res) => {
   res.render("login")
 
 })
 
+app.use(expressip().getIpInfoMiddleware);
 app.post ("/login", (req, res) => {
 
   var password
@@ -304,6 +310,7 @@ app.post ("/login", (req, res) => {
 
 //Logout 
 
+app.use(expressip().getIpInfoMiddleware);
 app.get("/logout", (req, res) =>{
   loggato = false
   Note.find({}, function(err, partiCard) {
@@ -316,6 +323,7 @@ app.get("/logout", (req, res) =>{
 
 //User
 
+app.use(expressip().getIpInfoMiddleware);
 app.get("/user", (req, res) => {
   console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
@@ -414,6 +422,7 @@ function Update(){
     var voti = 0
     
     partiCard.forEach (partiCard2 =>{
+      app.use(expressip().getIpInfoMiddleware);
       app.get(`/${partiCard2._id}`, (req, res) =>{
         if (loggato === false){
           //find by id
@@ -428,16 +437,31 @@ function Update(){
           
         }
         else if (loggato === true){
-          Note.find({}, function(err, updateMongoose) {
-            Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
-              res.render("infoGioco-loggato", 
-                {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                img : partiCard2.logo, link : partiCard2.link, 
-                desc : updateMongoose.desc, id : partiCard2._id, 
-                voti : updateMongoose.voti, user : userName })
-                console.log (partiCard2.voti)
-            })
+          User.find({userName  : userName}, function (err, user){
+            if (user.ip === req.ipInfo.ip){
+              Note.find({}, function(err, updateMongoose) {
+                Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                  res.render("infoGioco-loggato", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : updateMongoose.desc, id : partiCard2._id, 
+                    voti : updateMongoose.voti, user : userName })
+                    console.log (partiCard2.voti)
+                })
+              })
+            }
+            else if(user.ip != req.ipInfo.ip){
+              Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                res.render("infoGioco", 
+                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                  img : partiCard2.logo, link : partiCard2.link, 
+                  desc : updateMongoose.desc, 
+                  voti : updateMongoose.voti })
+                  console.log (partiCard2.voti)
+              })
+            }
           })
+          
 
         }     
       })
@@ -446,6 +470,7 @@ function Update(){
      //Voto
      partiCard.forEach(partiCard2 =>{
       console.log (partiCard2.voti)
+      app.use(expressip().getIpInfoMiddleware);
       app.get(`/${partiCard2._id}/vota`, ( req, res ) =>{
           var voti = 0
           if (loggato === false) {
@@ -460,7 +485,8 @@ function Update(){
           }
           else if (loggato === true){
             //Fare il + uno con Note.findOne ({})
-          
+            if (user.ip === req.ipInfo.ip){
+                   
             User.find ({}, function(err, partiUser){
               //
               partiUser.forEach(partiUser2 =>{
@@ -508,6 +534,18 @@ function Update(){
                 
               })     
             })
+            }
+            else if(user.ip != req.ipInfo.ip){
+              Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                res.render("infoGioco", 
+                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                  img : partiCard2.logo, link : partiCard2.link, 
+                  desc : updateMongoose.desc, 
+                  voti : updateMongoose.voti })
+                  console.log (partiCard2.voti)
+              })
+            }
+       
                    
           }
       })
@@ -515,21 +553,35 @@ function Update(){
 
     //Elimina
     partiCard.forEach(partiCard2 =>{
+          app.use(expressip().getIpInfoMiddleware);
           app.get(`/${partiCard2._id}/elimina`, ( req, res ) =>{
             if (partiCard2.devoloper === userName){
-              Note.findOneAndRemove({title: partiCard2.title },  function(err,data){
-                Note.find({}, function(err, partiCard) {
-                  if (loggato === true){
-                    res.render ("userProfile", 
-                    {user : userName, partiCardList: partiCard})
-                  }
-                  else if (loggato === false){
-                    res.render('games', {
-                      partiCardList: partiCard
+              if (user.ip === req.ipInfo.ip){
+                Note.findOneAndRemove({title: partiCard2.title },  function(err,data){
+                  Note.find({}, function(err, partiCard) {
+                    if (loggato === true){
+                      res.render ("userProfile", 
+                      {user : userName, partiCardList: partiCard})
+                    }
+                    else if (loggato === false){
+                      res.render('games', {
+                        partiCardList: partiCard
+                    })
+                    }
                   })
-                  }
                 })
-              })
+              }
+              else if(user.ip != req.ipInfo.ip){
+                Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                  res.render("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : updateMongoose.desc, 
+                    voti : updateMongoose.voti })
+                    console.log (partiCard2.voti)
+                })
+              }
+             
             }
   
             else if (partiCard.devoloper != userName){
@@ -551,6 +603,7 @@ function Update(){
         //Modifica
       partiCard.forEach(partiCard2 =>{
         console.log (partiCard2.voti)
+        app.use(expressip().getIpInfoMiddleware);
         app.get(`/${partiCard2._id}/modifica`, ( req, res ) =>{
             var voti = 0
             if (loggato === false) {
@@ -566,15 +619,28 @@ function Update(){
               })
             }
             else if (loggato === true){
-              Note.find({}, function(err, updateMongoose) {
-                updateMongoose.forEach (updateMongoose2 => {
-                  res.render ("update",
-                  { id : updateMongoose2._id
-
+              if (user.ip === req.ipInfo.ip){
+                Note.find({}, function(err, updateMongoose) {
+                  updateMongoose.forEach (updateMongoose2 => {
+                    res.render ("update",
+                    { id : updateMongoose2._id
+  
+                    })
+                    
                   })
-                  
                 })
-              })
+              }
+              else if(user.ip != req.ipInfo.ip){
+                Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                  res.render("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : updateMongoose.desc, 
+                    voti : updateMongoose.voti })
+                    console.log (partiCard2.voti)
+                })
+              }
+    
             }
         })
       })
@@ -596,7 +662,8 @@ function Update(){
               })
             }
             else if (loggato === true){
-              Note.find({}, function(err, updateMongoose) {
+              if (user.ip === req.ipInfo.ip){
+                             Note.find({}, function(err, updateMongoose) {
                 updateMongoose.forEach (updateMongoose2 => {
                   res.render ("update",
                   { id : updateMongoose2._id
@@ -615,6 +682,18 @@ function Update(){
                   })  
                 })
               })
+              }
+              else if(user.ip != req.ipInfo.ip){
+                Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                  res.render("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : updateMongoose.desc, 
+                    voti : updateMongoose.voti })
+                    console.log (partiCard2.voti)
+                })
+              }
+ 
             }
         })
       })
