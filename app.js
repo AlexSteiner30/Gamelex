@@ -311,6 +311,7 @@ app.post ("/login", (req, res) => {
     }
     else if (result === true){
       loggato = true;
+      userName = req.body.user
       User.findOneAndUpdate ({userName : req.body.user}, {"ip": req.ipInfo.ip}, function(err,data){
         Note.find({}, function(err, partiCard) {
           res.render ("games-login", {user : req.body.user, partiCardList: partiCard})
