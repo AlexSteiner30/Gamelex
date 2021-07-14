@@ -78,12 +78,13 @@ app.get("/aggiungi", (req, res) => {
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
       User.find({userName  : userName}, function (err, user){
+        console.log (user.ip)
         if (user.ip === req.ipInfo.ip){
           console.log ("è il tuo ip")
           res.sendFile(__dirname + "/aggiugni.html")
         }
         else if(user.ip != req.ipInfo.ip){
-          connsole.log ("Non è il tuo ip")
+          console.log ("Non è il tuo ip")
           res.render('games', {
             partiCardList: partiCard
           })
