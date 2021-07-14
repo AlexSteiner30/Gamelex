@@ -78,7 +78,7 @@ app.get("/aggiungi", (req, res) => {
     if (loggato === true){
       User.find({userName  : userName}, function (err, user){
         if (user.ip === req.ipInfo.ip){
-          res.sendFile(__dirname + "/index.html")
+          res.sendFile(__dirname + "/aggiugni.html")
         }
         else if(user.ip != req.ipInfo.ip){
           res.render('games', {
@@ -194,11 +194,6 @@ app.get("/index", (req, res) => {
     })
     }
   })
-})
-
-
-app.get("/aggiungi", function(req, res){
-  res.sendFile(__dirname + "/aggiungi.html")
 })
 
 app.get("/games", (req, res) => {
@@ -354,14 +349,13 @@ client.on('message', message => {
   if (message.author.id === "838302280548614184") {
     if (command === 'approva') {
       if (!args.length) {
-        return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+        return message.channel.send(`Scrivi l'id del videogioco e una nota ${message.author}!`);
       }
-          
-          Note.findOneAndUpdate({_id: args}, {"approvato": true},  function(err,data)
+          Note.findOneAndUpdate({_id: args[0]}, {"approvato": true},  function(err,data)
           {
               if(!err){
                   var nome
-                  message.channel.send("Il gioco è stato approvato correttamente!")
+                  message.channel.send(`${data.title} è stato approvato correttamente!`)
     
                   Note.findById({_id : args}, (error, data) =>{
                       titolo = data.title
@@ -372,10 +366,12 @@ client.on('message', message => {
                   })
     
                   Update()
+
+                  client.channels.cache.get(`857985378040152064`).send(`${data.title} è stato approvato!\n Note: ${args}`)
               }
     
               else{
-                  message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
+                  message.channel.send(`E' stato riscontrato un errore, prova a veder se l id era corretto!\nOppure: ${err}`)
               }
           
           });
@@ -384,20 +380,25 @@ client.on('message', message => {
 
     else if (command === 'rifiuta') {
       if (!args.length) {
-        return message.channel.send(`Scrivi l'id del videogioco, ${message.author}!`);
+        return message.channel.send(`Scrivi l'id del videogioco e una nota ${message.author}!`);
       }
-          Note.findOneAndRemove({_id: args},  function(err,data)
-          {
-              if(!err){
-                 message.channel.send("Il gioco è stato eliminato correttamente!")
-              }
-    
-              else{
-                  message.channel.send("E' stato riscontrato un errore, prova a veder se l id era corretto!")
-              }
-          
-          });
-    
+      Note.find ({}, function (err, giochi){
+        giochi.forEach (gioco =>{
+          if (gioco._id === args[0]){
+            message.channel.send(`${gioco.title} è stato eliminato correttamente!`)
+            client.channels.cache.get(`857985378040152064`).send(`${gioco.title} è stato rifiutato!\n Note: ${args}`)
+            Note.findOneAndRemove({_id: args[0]},  function(err,data2){
+              console.log(data2)
+            })
+          }
+
+          else {
+            console.log ("Non è questo gioco")
+          }
+        })
+      })
+         
+  
     
       }
   }
