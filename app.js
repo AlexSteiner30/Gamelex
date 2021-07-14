@@ -484,16 +484,23 @@ function Update(){
           User.find({}, function (err, user){
             user.forEach (user2 =>{
               if (user2.userName === userName){
-                if (user2.ip === req.ipInfo.ip){
-                  res.render ("infoGioco-loggato", 
-                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                  img : partiCard2.logo, link : partiCard2.link, 
-                  desc : partiCard2.desc, user : userName,
-                  voti : updateMongoose.voti, id : partiCard2._id })
+                if (user.ip === req.ipInfo.ip){
+                  Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                    res.render ("infoGioco-loggato", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : partiCard2.desc, user : userName,
+                    voti : updateMongoose.voti, id : partiCard2._id })
+                  })
+                 
                 }
-                else if(user2.ip != req.ipInfo.ip){
-                  res.render('infoGioco', {
-                    partiCardList: partiCard
+                else if(user.ip != req.ipInfo.ip){
+                  Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                    res.render ("infoGioco", 
+                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    img : partiCard2.logo, link : partiCard2.link, 
+                    desc : partiCard2.desc,
+                    voti : updateMongoose.voti, id : partiCard2._id })
                   })
                 }
               }
