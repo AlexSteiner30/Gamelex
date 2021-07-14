@@ -7,6 +7,7 @@ const Discord = require('discord.js');
 const config = require("./config.json");
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+const expressip = require('express-ip');
 
 var user
 var userName
@@ -44,8 +45,10 @@ const Note = mongoose.model("Videogiochi-non-approvati", notesSchema)
 
 const User = mongoose.model("login", userSchema)
 
- 
+app.use(expressip().getIpInfoMiddleware);
+
 app.get('/', (req, res) => {
+  res.send(req.ipInfo);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
       res.render ("games-login", {user : userName, partiCardList: partiCard})
