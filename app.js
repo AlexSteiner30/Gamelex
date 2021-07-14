@@ -73,15 +73,30 @@ app.get('/', (req, res) => {
 })
 
 app.get("/aggiungi", (req, res) => {
-  if (loggato === true){
-    res.sendFile (__dirname + "/aggiungi.html")
-  }
+  console.log(req.ipInfo.ip);
+  Note.find({}, function(err, partiCard) {
+    if (loggato === true){
+      User.find({userName  : userName}, function (err, user){
+        if (user.ip === req.ipInfo.ip){
+          res.sendFile(__dirname + "/index.html")
+        }
+        else if(user.ip != req.ipInfo.ip){
+          res.render('games', {
+            partiCardList: partiCard
+          })
+        }
+      })
+     
+    }
 
-  else if (loggato === false){
-    Note.find({}, function(err, partiCard) {
-      res.render ("games", {partiCardList : partiCard})
-    })
-  }
+    else if (loggato === false){
+      Note.find({}, function(err, partiCard) {
+        res.render ("games", {partiCardList : partiCard})
+      })
+    }
+    
+  })
+
 })
 
 app.post("/aggiungi", function(req, res){
@@ -158,9 +173,20 @@ app.post("/aggiungi", function(req, res){
 
 
 app.get("/index", (req, res) => {
+  console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
-      res.render ("games-login", {user : userName, partiCardList: partiCard})
+      User.find({userName  : userName}, function (err, user){
+        if (user.ip === req.ipInfo.ip){
+          res.render ("games-login", {user : userName, partiCardList: partiCard})
+        }
+        else if(user.ip != req.ipInfo.ip){
+          res.render('games', {
+            partiCardList: partiCard
+          })
+        }
+      })
+     
     }
     else if (loggato === false){
       res.render('games', {
@@ -176,9 +202,20 @@ app.get("/aggiungi", function(req, res){
 })
 
 app.get("/games", (req, res) => {
+  console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
-      res.render ("games-login", {user : userName, partiCardList: partiCard})
+      User.find({userName  : userName}, function (err, user){
+        if (user.ip === req.ipInfo.ip){
+          res.render ("games-login", {user : userName, partiCardList: partiCard})
+        }
+        else if(user.ip != req.ipInfo.ip){
+          res.render('games', {
+            partiCardList: partiCard
+          })
+        }
+      })
+     
     }
     else if (loggato === false){
       res.render('games', {
@@ -257,8 +294,10 @@ app.post ("/login", (req, res) => {
     }
     else if (result === true){
       loggato = true;
-      Note.find({}, function(err, partiCard) {
-        res.render ("games-login", {user : req.body.user, partiCardList: partiCard})
+      User.findOneAndUpdate ({userName : req.body.user}, {"ip": req.ipInfo.ip}, function(err,data){
+        Note.find({}, function(err, partiCard) {
+          res.render ("games-login", {user : req.body.user, partiCardList: partiCard})
+        })
       })
     }
     else if (result === false){
@@ -283,10 +322,20 @@ app.get("/logout", (req, res) =>{
 //User
 
 app.get("/user", (req, res) => {
+  console.log(req.ipInfo.ip);
   Note.find({}, function(err, partiCard) {
     if (loggato === true){
-      res.render ("userProfile", 
-      {user : userName, partiCardList: partiCard})
+      User.find({userName  : userName}, function (err, user){
+        if (user.ip === req.ipInfo.ip){
+          res.render ("userProfile", {user : userName, partiCardList: partiCard})
+        }
+        else if(user.ip != req.ipInfo.ip){
+          res.render('games', {
+            partiCardList: partiCard
+          })
+        }
+      })
+     
     }
     else if (loggato === false){
       res.render('games', {
