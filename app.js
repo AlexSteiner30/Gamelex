@@ -484,7 +484,7 @@ function Update(){
           User.find({}, function (err, user){
             user.forEach (user2 =>{
               if (user2.userName === userName){ //Fixare non riconosce user
-                if (user.ip === req.ipInfo.ip){
+                if (user2.ip === req.ipInfo.ip){
                   Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
                     res.render ("infoGioco-loggato", 
                     {nome : partiCard2.title, devoloper : partiCard2.devoloper,
@@ -494,7 +494,7 @@ function Update(){
                   })
                  
                 }
-                else if(user.ip != req.ipInfo.ip){
+                else if(user2.ip != req.ipInfo.ip){
                   Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
                     res.render ("infoGioco", 
                     {nome : partiCard2.title, devoloper : partiCard2.devoloper,
@@ -505,7 +505,7 @@ function Update(){
                 }
               }
     
-              else  {
+              else if (user2.userName != userName){ 
                 console.log ("Non corrisponde al tuo user name")
               }
             })
