@@ -722,38 +722,17 @@ function Update(){
                 user.forEach (user2 =>{
                   if (user2.userName === userName){
                     if (user2.ip === req.ipInfo.ip){
-                      Note.findOneAndRemove({title: partiCard2.title },  function(err,data){
-                        Note.find({}, function(err, partiCard) {
-                          if (loggato === true){
-                            Note.find({}, function(err, updateMongoose) {
-                              updateMongoose.forEach (updateMongoose2 => {
-                                res.render ("update",
-                                { id : updateMongoose2._id
-              
-                                })
-                                var updateDesc = req.body.desc
-                                client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
-                                Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
-                                  console.log (data.voti)
-                                  res.render ("infoGioco-loggato", 
-                                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                                    img : partiCard2.logo, link : partiCard2.link, 
-                                    desc : req.body.desc, user : userName,
-                                    voti : updateMongoose2.voti, id : partiCard2._id })
-              
-                                })  
-                              })
-                            })
-                          }
-                          else if (loggato === false){
-                            res.render('games', {
-                              partiCardList: partiCard
-                          })
-                          }
-                        })
-                      })
-                    
-                    
+                      var updateDesc = req.body.desc
+                      client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
+                      Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
+                        console.log (data.voti)
+                        res.render ("infoGioco-loggato", 
+                          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                          img : partiCard2.logo, link : partiCard2.link, 
+                          desc : req.body.desc, user : userName,
+                          voti : updateMongoose2.voti, id : partiCard2._id })
+    
+                      })  
                     }
                     else if(user2.ip != req.ipInfo.ip){
                       res.render('games', {
