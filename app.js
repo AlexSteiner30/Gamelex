@@ -724,6 +724,11 @@ function Update(){
                     if (user2.ip === req.ipInfo.ip){
                       var updateDesc = req.body.desc
                       client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
+                      Note.find({}, function(err, updateMongoose) {
+                        updateMongoose.forEach (updateMongoose2 => {
+
+                        })
+                      })
                       Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
                         console.log (data.voti)
                         res.render ("infoGioco-loggato", 
