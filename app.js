@@ -676,47 +676,29 @@ function Update(){
             else if (loggato === true){
               User.find({}, function (err, user){
                 user.forEach (user2 =>{
-                
-                  if (user2.ip === req.ipInfo.ip){
-                      Note.findOneAndRemove({title: partiCard2.title },  function(err,data){
-                        Note.find({}, function(err, partiCard) {
-                          if (loggato === true){
-                            Note.find({}, function(err, updateMongoose) {
-                              updateMongoose.forEach (updateMongoose2 => {
-                                res.render ("update",
-                                { id : updateMongoose2._id
-              
-                                })
-                                
-                              })
-                            })
-                          }
-                          else if (loggato === false){
-                            res.render('games', {
-                              partiCardList: partiCard
+                  if (user2.userName === userName){
+                    if (user2.ip === req.ipInfo.ip){
+                      Note.find({}, function(err, updateMongoose) {
+                        updateMongoose.forEach (updateMongoose2 => {
+                          res.render ("update",
+                            { id : updateMongoose2._id
+      
                           })
-                          }
+                        
                         })
                       })
                     
-                    
                     }
-                  else if(user2.ip != req.ipInfo.ip){
+                    else if(user2.ip != req.ipInfo.ip){
                       res.render('games', {
                         partiCardList: partiCard
                       })
+                    }
                   }
-
-                  
-        
-                
                 })
               })
-
-        
-    
             }
-        })
+          })     
       })
 
       partiCard.forEach(partiCard2 =>{
