@@ -723,21 +723,23 @@ function Update(){
                   if (user2.userName === userName){
                     if (user2.ip === req.ipInfo.ip){
                       var updateDesc = req.body.desc
-                      client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
+                      
                       Note.find({}, function(err, updateMongoose) {
                         updateMongoose.forEach (updateMongoose2 => {
-
-                        })
-                      })
-                      Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
-                        console.log (data.voti)
-                        res.render ("infoGioco-loggato", 
-                          {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                          img : partiCard2.logo, link : partiCard2.link, 
-                          desc : req.body.desc, user : userName,
-                          voti : updateMongoose2.voti, id : partiCard2._id })
+                          client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
+                          Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
+                            console.log (data.voti)
+                            res.render ("infoGioco-loggato", 
+                              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                              img : partiCard2.logo, link : partiCard2.link, 
+                              desc : req.body.desc, user : userName,
+                              voti : updateMongoose2.voti, id : partiCard2._id })
     
-                      })  
+                            })  
+                          })
+                        })
+                  
+                      
                     }
                     else if(user2.ip != req.ipInfo.ip){
                       res.render('games', {
