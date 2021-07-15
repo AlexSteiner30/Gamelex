@@ -483,7 +483,7 @@ function Update(){
         else if (loggato === true){ //Qui errore
           User.find({}, function (err, user){
             user.forEach (user2 =>{
-              if (user2.userName === userName){
+              if (user2.userName === userName){ //Fixare non riconosce user
                 if (user.ip === req.ipInfo.ip){
                   Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
                     res.render ("infoGioco-loggato", 
