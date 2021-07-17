@@ -4,34 +4,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Gamelex</title>
-
-    <link href="#index.css" rel="stylesheet" type="text/css" />
-  </head>
-
-  <body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
-    <ul class="menu">
-        <br>
-        <li><a href="/index">Home</a></li>
-        <li><a href="/games">Video giochi</a></li>
-        <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
-        <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
-        <li><a href = "/user"><%= user %> </a></li>
-        <li><a href = "/logout">Logout</a></li>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h1>Gamelex</h1>
-        <br>
-        <h2>La miglior lista di videogiochi italiani!</h2>
-        <br>
-        <br>
-    </ul>
+        <title>Gamelex</title>
+        <link href="/assets/home.css" rel="stylesheet">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index">Gamelex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/aggiungi">Aggiungi videogiochi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/games">Videogiochi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="https://discord.gg/V35p2mF5R5">Server Discord</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/user"><%= user %> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+    </nav>
 
     <br>
     <br>
     <br>
+
 
     <div class = "Card-gioco">
     
@@ -48,7 +60,7 @@
               <h1 class = "Titolo-Card"><%= partiCard.title %> </h1>
               <h3 class="SottoTitolo-Card"><%= partiCard.desc %> </h3>
     
-              <a class="gioca-vedi">Vedi video gioco</a>
+              <a class="gioca-vedi" href = <%= `/${partiCard._id}`  %>>Vedi video gioco</a>
               <a class="gioca-vedi" href = <%= partiCard.link %> >Gioca</a>
               <br>
               <br>
@@ -62,78 +74,31 @@
 
     
 
+    
     <style>
 
       * {
   box-sizing: border-box;
 }
 
-body{
-    background-color: rgb(8, 8, 94);
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 10px 10px 10px 10px; 
-    background-color: rgb(38, 51, 45);
-  }
-  
-  li {
-    float: left;
-  }
-  @media screen and (max-width: 600px) {
-    li{
-      float: none;
-      text-align: left;
-    }
-
-    a {
-      text-align: left;
-      margin-left: 0px;
-    }
-  }
-  
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  li a:hover:not(.active) {
-    background-color: rgb(42, 56, 49);
-  }
-  
-  .active {
-    background-color: #04AA6D;
-  }
-
-  h1{
+  .Titolo-Card{
     color: white;
     font-family: sans-serif;
     text-decoration: none;
     padding-left: 20px;
     font-weight: 400;
+    font-size: 25px;
   }
 
-  h2{
-    color: white;
-    font-family: sans-serif;
-    text-decoration: none;
-    padding-left: 20px;
-    font-weight: 400;
-  }
 
-  h3{
+
+  .SottoTitolo-Card{
     color: white;
     font-family: sans-serif;
     text-decoration: none;
     font-weight: 400;
     text-align: center;
+    font-size: 15px;
   }
 
 .Card-img{
@@ -149,7 +114,8 @@ ul {
   height: auto;
   width: 300px;
   border-radius: 10px 10px 10px 10px; 
-  background-color: rgb(38, 51, 45);
+  background-color: #212529
+
 }
 
 
@@ -160,11 +126,13 @@ ul {
   height: auto;
   width: 300px;
   border-radius: 10px 10px 10px 10px; 
-  background-color: rgb(38, 51, 45);
+  background-color:  #28242c;
   
 }
 
 .Card-img{
+  width: 200px;
+  height: 200px;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -211,6 +179,13 @@ ul {
       border-radius: .25rem;
       transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Noto+Sans+JP&display=swap');
+body {
+  background-image: url("https://i.ibb.co/qgjW6Pz/4882066.jpg");
+  color: white;
+}
 
     </style>
 

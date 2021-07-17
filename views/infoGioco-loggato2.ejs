@@ -5,17 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= nome %> </title>
-</head>
-<body>
-    <ul class="menu">
-        <li><a href="/index">Home</a></li>
-        <li><a href="/games">Video giochi</a></li>
-        <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
-        <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
-        <li><a href = "/user"><%= user %> </a></li>
-        <li><a href = "/logout">Logout</a></li>
-        <br>
-    </ul>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <link href="/assets/home.css" rel="stylesheet">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index">Gamelex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/aggiungi">Aggiungi videogiochi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/games">Videogiochi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="https://discord.gg/V35p2mF5R5">Server Discord</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/user"><%= user %> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+    </nav>
 
     <div class = "infoGioco">
         <%if (user === devoloper){%>
@@ -68,157 +91,116 @@
       alert("Potrai di nuovo votare domani")
     </script>
 
-    <style>
+<style>
 
-      * {
-  box-sizing: border-box;
+  * {
+box-sizing: border-box;
 }
 
-body{
-    background-color: rgb(8, 8, 94);
+.Titolo-Card{
+color: white;
+font-family: sans-serif;
+text-decoration: none;
+padding-left: 20px;
+font-weight: 400;
+font-size: 25px;
 }
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 10px 10px 10px 10px; 
-    background-color: rgb(38, 51, 45);
-  }
-  
-  li {
-    float: left;
-  }
-  @media screen and (max-width: 600px) {
-    li{
-      float: none;
-      text-align: left;
-    }
 
-    a {
-      text-align: left;
-      margin-left: 0px;
-    }
-  }
-  
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  li a:hover:not(.active) {
-    background-color: rgb(42, 56, 49);
-  }
-  
-  .active {
-    background-color: #04AA6D;
-  }
 
-  h1{
-    color: white;
-    font-family: sans-serif;
-    text-decoration: none;
-    padding-left: 20px;
-    font-weight: 400;
-  }
 
-  h2{
-    color: white;
-    font-family: sans-serif;
-    text-decoration: none;
-    padding-left: 20px;
-    font-weight: 400;
-  }
-
-  h3{
-    color: white;
-    font-family: sans-serif;
-    text-decoration: none;
-    font-weight: 400;
-    text-align: center;
-  }
+.SottoTitolo-Card{
+color: white;
+font-family: sans-serif;
+text-decoration: none;
+font-weight: 400;
+text-align: center;
+font-size: 15px;
+}
 
 .Card-img{
-  display: block;
-  padding-left: auto;
-  padding-right: auto;
+display: block;
+padding-left: auto;
+padding-right: auto;
 }
 
 .Circle-Royale{
-  float: left;
-  padding-left: 30px;
-  margin: 30px;
-  margin-left: 0px;
-  height: auto;
-  width: 100%;
-  border-radius: 10px 10px 10px 10px; 
-  background-color: rgb(38, 51, 45);
+float: left;
+padding-left: 30px;
+margin: 30px;
+margin-left: 0px;
+height: auto;
+width: 100%;
+border-radius: 10px 10px 10px 10px; 
+background-color: #212529
 }
 
 
 .Circle-Royale2{
-  float: left;
-  padding-left: 30px;
-  margin: 30px;
-  height: auto;
-  width: 300px;
-  border-radius: 10px 10px 10px 10px; 
-  background-color: rgb(38, 51, 45);
-  
+float: left;
+padding-left: 30px;
+margin: 30px;
+height: auto;
+width: 300px;
+border-radius: 10px 10px 10px 10px; 
+background-color: rgb(38, 51, 45);
+
 }
 
 .Card-img{
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+margin-left: auto;
+margin-right: auto;
+display: block;
 }
 
 .Card-img2{
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  height: 512px;
-  width: 512px;
+margin-left: auto;
+margin-right: auto;
+display: block;
+height: 512px;
+width: 512px;
 
 }
 
 .Titolo-Card{
-  padding-left: 0px;
+padding-left: 0px;
 }
 .SottoTitolo-Card{
-  text-align: justify;
-  text-justify: inter-word;
-  padding-right: 20px;
+text-align: justify;
+text-justify: inter-word;
+padding-right: 20px;
 }
 
 .gioca-vedi{ 
-  border-radius: 10px 10px 10px 10px; 
-      background-color:#0d6efd;
-      border-color:#0d6efd;
+border-radius: 10px 10px 10px 10px; 
+  background-color:#0d6efd;
+  border-color:#0d6efd;
 
-      display: inline-block;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #212529;
-      text-align: center;
-      text-decoration: none;
-      vertical-align: middle;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      background-color: cornflowerblue;
-      border: 1px solid cornflowerblue;
-      padding: .375rem .75rem;
-      font-size: 1rem;
-      border-radius: .25rem;
-      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  }
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: cornflowerblue;
+  border: 1px solid cornflowerblue;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
 
-    </style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Noto+Sans+JP&display=swap');
+body {
+background-image: url("https://i.ibb.co/qgjW6Pz/4882066.jpg");
+color: white;
+}
+
+</style>
 </body>
 </html>

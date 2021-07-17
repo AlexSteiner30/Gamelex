@@ -472,7 +472,7 @@ function Update(){
           //find by id
           Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
             res.render("infoGioco", 
-              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+              {nome : partiCard2.title, devoloper : updateMongoose.devoloper,
               img : partiCard2.logo, link : partiCard2.link, 
               desc : updateMongoose.desc, 
               voti : updateMongoose.voti })
@@ -487,9 +487,9 @@ function Update(){
                 if (user2.ip === req.ipInfo.ip){
                   Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
                     res.render ("infoGioco-loggato", 
-                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                    {nome : partiCard2.title, devoloper : updateMongoose.devoloper,
                     img : partiCard2.logo, link : partiCard2.link, 
-                    desc : partiCard2.desc, user : userName,
+                    desc : updateMongoose.desc, user : userName,
                     voti : updateMongoose.voti, id : partiCard2._id })
                   })
                  
@@ -664,12 +664,7 @@ function Update(){
             if (loggato === false) {
               Note.find({}, function(err, updateMongoose) {
                 updateMongoose.forEach (updateMongoose2 => {
-                  res.render("infoGioco", 
-                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                  img : partiCard2.logo, link : partiCard2.link, 
-                  desc : partiCard2.desc, 
-                  voti : updateMongoose2.voti })
-                  console.log (partiCard2.voti)
+                  res.render ("games", {partiCardList: partiCard})
                 })
               })
             }
@@ -708,12 +703,7 @@ function Update(){
             if (loggato === false) {
               Note.find({}, function(err, updateMongoose) {
                 updateMongoose.forEach (updateMongoose2 => {
-                  res.render("infoGioco", 
-                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                  img : partiCard2.logo, link : partiCard2.link, 
-                  desc : partiCard2.desc, 
-                  voti : updateMongoose2.voti })
-                  console.log (partiCard2.voti)
+                  res.render ("games", {partiCardList: partiCard})
                 })
               })
             }
@@ -723,21 +713,17 @@ function Update(){
                   if (user2.userName === userName){
                     if (user2.ip === req.ipInfo.ip){
                       var updateDesc = req.body.desc
-                      
+                      console.log (partiCard2._id)
                       Note.find({}, function(err, updateMongoose) {
-                        updateMongoose.forEach (updateMongoose2 => {
-                          client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
+                        updateMongoose.forEach (updateMongoose2 => { //il for each fa modificare tutti i doc nel db bisogna fixare!
+                          client.channels.cache.get(`857985378040152064`).send(`**${updateMongoose2.title}** è stato modificato da **${userName}**!`)
                           Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
                             console.log (data.voti)
-                            res.render ("infoGioco-loggato", 
-                              {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                              img : partiCard2.logo, link : partiCard2.link, 
-                              desc : req.body.desc, user : userName,
-                              voti : updateMongoose2.voti, id : partiCard2._id })
-    
-                            })  
+                            res.render ("games-login", {user : userName, partiCardList: partiCard})
+
                           })
                         })
+                      })
                   
                       
                     }

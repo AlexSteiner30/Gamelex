@@ -5,28 +5,40 @@
     <meta name="viewport" content="width=device-width">
     <title>Gamelex</title>
 
-    <link href="#aggiungi.css" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
-
-    <ul class="menu">
-      <br>
-      <li><a href="/index">Home</a></li>
-      <li><a href="/games">Video giochi</a></li>
-      <li><a href="/aggiungi">Aggiungi video gioco</a> </li>
-      <li><a href="https://discord.gg/V35p2mF5R5">Server Discord</a></li>
-      <li><a href="/logout">Logout</a></li>
-      <br>
-      <br>
-      <br>
-      <br>
-      <h1>Gamelex</h1>
-      <br>
-      <h2>La miglior lista di videogiochi italiani!</h2>
-      <br>
-      <br>
-  </ul>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+        <title>Gamelex</title>
+        <link href="/assets/home.css" rel="stylesheet">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/index">Gamelex</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/aggiungi">Aggiungi videogiochi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/games">Videogiochi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="https://discord.gg/V35p2mF5R5">Server Discord</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/logout">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      
+      </nav>
+  
 
   <br>
   <br>
@@ -35,117 +47,66 @@
     <div class = "Modulo Gioco">
       <form method="POST" action=<%= `/${id}/modifica` %> >
 
+        <br>
+
         <div class="block">
           <h4 class = "DescrizioneGioco">Descrizione</h4>
 
           <textarea class = "desc" required id = "DescrizioneGioco" name="desc" type="text"></textarea>
         </div>
         
+        <br>
+        <hr>
 
-        <button >Aggiorna</button>
+        <button><a>Aggiorna</a></button>
+
       </form>
     </div>
 
     <style>
-      body{
-          background-color: rgb(8, 8, 94);
+      a{
+        color: white;
       }
+      body {
+  background-image: url("https://i.ibb.co/qgjW6Pz/4882066.jpg");
+  color: white;
+}
+
       .button{
         color: white;
       }
-        .block{
-          display:inline-block;
-          margin-left: 100px;
-        }
       
-      .ModuloGioco{
-          padding-left: 30px;
-          margin: 30px;
-          float: left;
+        form { 
+        background-color: #212529;
+        margin: auto;
+        width: 600px;
+        height: auto;
+        border-radius: 10px 10px 10px 10px; 
+}
+
+hr{
+  color: white;
+}
+
+.block{
+        margin-left: 50px;
       }
-      
-      textarea { 
-          margin:0;
-          padding:0;
-          display:table-cell;
-          border-radius: 10px 10px 10px 10px; 
-          background-color:rgb(38, 51, 45);;
-          width: 200px;
-          color: white;
-          text-decoration-color: white;
-          height: 300px;
-      }
-      
-      @media screen and (max-width: 600px) {
-          li{
-            float: none;
-            text-align: left;
-          }
-      
-          a {
-            text-align: left;
-            margin-left: 0px;
-          }
-      
-          .desc{
-        margin:0;
-          padding:0;
-          display:table-cell;
-          border-radius: 10px 10px 10px 10px; 
-          background-color:rgb(38, 51, 45);;
-          width: 100%;
-          height: 300px;
-          color: white;
-      }
-        }
       
       .desc{
-        margin:0;
-          padding:0;
-          display:table-cell;
-          border-radius: 10px 10px 10px 10px; 
-          background-color: rgb(38, 51, 45);
-          text-decoration-color: white;          
-          width: 100%;
-          height: 300px;
-          color: white;
-      }
       
+      border-radius: 10px 10px 10px 10px; 
+      background-color:rgb(38, 51, 45);;
+      width: 500px;
+      height: 300px;
+      color: white;
+      }
       button{ 
           border-radius: 10px 10px 10px 10px; 
           background-color: rgb(38, 51, 45);
           text-decoration-color: white;
       }
       
-      ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          border-radius: 10px 10px 10px 10px; 
-          background-color: rgb(38, 51, 45);
-        }
-        
-        li {
-          float: left;
-        }
-        
-        li a {
-          display: block;
-          color: white;
-          text-align: center;
-          padding: 14px 16px;
-          text-decoration: none;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        li a:hover:not(.active) {
-          background-color:rgb(42, 56, 49);
-        }
-        
-        .active {
-          background-color: #04AA6D;
-        }
+
       
         h1{
           color: white;
