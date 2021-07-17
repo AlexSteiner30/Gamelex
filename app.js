@@ -712,19 +712,21 @@ function Update(){
                 user.forEach (user2 =>{
                   if (user2.userName === userName){
                     if (user2.ip === req.ipInfo.ip){
-                      var updateDesc = req.body.desc
-                      console.log (partiCard2._id)
-                      Note.find({}, function(err, updateMongoose) {
-                        updateMongoose.forEach (updateMongoose2 => { //il for each fa modificare tutti i doc nel db bisogna fixare!
-                          client.channels.cache.get(`857985378040152064`).send(`**${updateMongoose2.title}** è stato modificato da **${userName}**!`)
-                          Note.findOneAndUpdate({_id: updateMongoose2._id}, {"desc" : req.body.desc},  function(err,data){
+                      Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                              
+                             
+                        client.channels.cache.get(`858254916027285524`).send(`**${partiCard2.title}** è stato votato da **${userName}**! Ora ha **${updateMongoose.voti + 1}** voti!`)
+                        Note.findOneAndUpdate({_id: updateMongoose._id}, {"desc" : req.body.desc },  function(err,data){
+                          client.channels.cache.get(`857985378040152064`).send(`**${updateMongoose.title}** è stato modificato da **${userName}**!`)
+                          Note.findOneAndUpdate({_id: updateMongoose._id}, {"desc" : req.body.desc},  function(err,data){
                             console.log (data.voti)
                             res.render ("games-login", {user : userName, partiCardList: partiCard})
 
                           })
                         })
-                      })
-                  
+                    })
+                      
+   
                       
                     }
                     else if(user2.ip != req.ipInfo.ip){
