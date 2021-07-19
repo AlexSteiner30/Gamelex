@@ -432,7 +432,7 @@ client.on('message', message => {
           args[0] = "";
           var toSend = args.join(" ");
           message.channel.send(`${data2.title} è stato eliminato correttamente!`)
-          client.channels.cache.get(`857985378040152064`).send(`${data2.title} è stato rifiutato!\nNote:${toSend}`)
+          client.channels.cache.get(`857985378040152064`).send(`${data2.title} è stato rifiutato!\n**Note:**${toSend}`)
         }
 
         else{
