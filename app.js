@@ -656,7 +656,7 @@ function Update(){
 
 
         //Modifica
-      partiCard.forEach(partiCard2 =>{
+      partiCard.forEach(partiCard2 =>{ //Fare tutto con get
         console.log (partiCard2.voti)
         app.use(expressip().getIpInfoMiddleware);
         app.get(`/${partiCard2._id}/modifica`, ( req, res ) =>{
@@ -673,15 +673,10 @@ function Update(){
                 user.forEach (user2 =>{
                   if (user2.userName === userName){
                     if (user2.ip === req.ipInfo.ip){
-                      Note.find({}, function(err, updateMongoose) {
-                        updateMongoose.forEach (updateMongoose2 => {
-                          res.render ("update",
-                            { id : updateMongoose2._id
+                      res.render ("update",
+                            { id : partiCard2._id
       
                           })
-                        
-                        })
-                      })
                     
                     }
                     else if(user2.ip != req.ipInfo.ip){
@@ -698,7 +693,7 @@ function Update(){
 
       partiCard.forEach(partiCard2 =>{
         console.log (partiCard2.voti)
-        app.post(`/${partiCard2._id}/modifica`, ( req, res ) =>{ //Ecco come fare copiare il voto e fare al posto di voti desc con req.body.desc
+        app.post(`/${partiCard2._id}/modifica`, ( req, res ) =>{
           var voti = 0
           if (loggato === false) {
             Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
@@ -721,27 +716,23 @@ function Update(){
                       partiUser.forEach(partiUser2 =>{
                         if (partiUser2.userName === userName){
                           console.log("Sei tu")
-                          
+                       
                             Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
                               
                              
                                 client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato modificato da **${userName}**!`)
                                 Note.findOneAndUpdate({_id: updateMongoose._id}, {"desc" : req.body.desc },  function(err,data){
                                   console.log (data.voti)
-                                  res.render ("infoGioco-loggato", 
-                                    {nome : partiCard2.title, devoloper : partiCard2.devoloper,
-                                    img : partiCard2.logo, link : partiCard2.link, 
-                                    desc : req.body.desc, user : userName,
-                                    voti : updateMongoose.voti, id : partiCard2._id })
+                                  res.render ("games-login", {user: userName, partiCardList: partiCard})
             
                                 })
-                      
+                       
                             })
         
                            
                           
               
-      
+                           
                         }
                         else if(partiUser2.userName != user){
                           console.log("Non sei tu")
@@ -768,8 +759,7 @@ function Update(){
 
             
           }
-    
-        })
+      })
       })
     })
 
@@ -783,7 +773,7 @@ io.on('connection', () =>{
 
 
 //Server
-var server = http.listen(process.env.PORT || 4000, () => {
+var server = http.listen(process.env.PORT || 5000, () => {
   console.log('server is running on port', server.address().port);
 
 
