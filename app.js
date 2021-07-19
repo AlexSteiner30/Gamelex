@@ -613,45 +613,72 @@ function Update(){
     partiCard.forEach(partiCard2 =>{
           app.use(expressip().getIpInfoMiddleware);
           app.get(`/${partiCard2._id}/elimina`, ( req, res ) =>{
-            if (loggato === true){
+            var voti = 0
+            if (loggato === false) {
+              Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                res.render("infoGioco", 
+                  {nome : partiCard2.title, devoloper : partiCard2.devoloper,
+                  img : partiCard2.logo, link : partiCard2.link, 
+                  desc : updateMongoose.desc, 
+                  voti : updateMongoose.voti })
+                  console.log (partiCard2.voti)
+              })
+            }
+            else if (loggato === true){
+              //Fare il + uno con Note.findOne ({})
               User.find({}, function (err, user){
                 user.forEach (user2 =>{
+                  if (user2.userName === userName){
+                    if (user2.ip === req.ipInfo.ip){
+                      User.find ({}, function(err, partiUser){
+                        //
+                        partiUser.forEach(partiUser2 =>{
+                          if (partiUser2.userName === userName){
+                            console.log("Sei tu")
+                         
+                              Note.findById({_id : partiCard2._id}, function(err, updateMongoose) {
+                                
+                               
+                                  client.channels.cache.get(`857985378040152064`).send(`**${partiCard2.title}** è stato eliminato da **${userName}**!`)
+                                  Note.findOneAndRemove({_id: updateMongoose._id},  function(err,data){
+                                    console.log (data.voti)
+                                    res.render ("games-login", {user: userName, partiCardList: partiCard})
+              
+                                  })
+                         
+                              })
+          
+                             
+                            
                 
-                  if (user2.ip === req.ipInfo.ip){
-                      Note.findOneAndRemove({title: partiCard2.title },  function(err,data){
-                        Note.find({}, function(err, partiCard) {
-                          if (loggato === true){
-                            res.render ("userProfile", 
-                            {user : userName, partiCardList: partiCard})
+                             
                           }
-                          else if (loggato === false){
-                            res.render('games', {
-                              partiCardList: partiCard
-                          })
+                          else if(partiUser2.userName != user){
+                            console.log("Non sei tu")
                           }
-                        })
+                          
+                        })     
                       })
-                    
-                    
+          
                     }
-                  else if(user2.ip != req.ipInfo.ip){
-                      res.render('games', {
+                    else if(user2.ip != req.ipInfo.ip){
+                      res.render('infoGioco', {
                         partiCardList: partiCard
                       })
+                    }
                   }
-
-                  
         
-                
+                  else if (user2.userName != userName){ 
+                    console.log ("Non corrisponde al tuo user name")
+                  }
                 })
+                
               })
+                    
+  
+              
             }
-            else if (loggato === false){
-              res.render('games', {
-                partiCardList: partiCard
-              })
-            }
-          })
+        })
     })
 
 
