@@ -396,7 +396,7 @@ app.get("/user", (req, res) => {
 client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  const args = message.content.slice(prefix.length).trim().split(' ');
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   if (message.author.id === "838302280548614184") {
     if (command === 'approva') {
@@ -406,27 +406,20 @@ client.on('message', message => {
           Note.findOneAndUpdate({_id: args[0]}, {"approvato": true},  function(err,data)
           {
               if(!err){
-                  var nome
+                  args[0] = "";
+                  var toSend = args.join(" ");
                   message.channel.send(`${data.title} è stato approvato correttamente!`)
-    
-                  Note.findById({_id : args}, (error, data) =>{
-                      titolo = data.title
-                      descrizione = data.desc
-                      link = data.link
-                      devoloper = data.devoloper
-                      logo = data.logo
-                  })
     
                   Update()
 
-                  client.channels.cache.get(`857985378040152064`).send(`${data.title} è stato approvato!\n Note: ${args}`)
+                  client.channels.cache.get(`857985378040152064`).send(`${data.title} è stato approvato!\n**Note:**${toSend}`)
               }
     
               else{
                   message.channel.send(`E' stato riscontrato un errore, prova a veder se l id era corretto!\nOppure: ${err}`)
               }
           
-          });
+          })
     
     }
 
@@ -434,21 +427,21 @@ client.on('message', message => {
       if (!args.length) {
         return message.channel.send(`Scrivi l'id del videogioco e una nota ${message.author}!`);
       }
-      Note.find ({}, function (err, giochi){
-        giochi.forEach (gioco =>{
-          if (gioco._id === args[0]){
-            message.channel.send(`${gioco.title} è stato eliminato correttamente!`)
-            client.channels.cache.get(`857985378040152064`).send(`${gioco.title} è stato rifiutato!\n Note: ${args}`)
-            Note.findOneAndRemove({_id: args[0]},  function(err,data2){
-              console.log(data2)
-            })
-          }
+      Note.findOneAndRemove({_id: args[0]},  function(err,data2){
+        if (!err){
+          args[0] = "";
+          var toSend = args.join(" ");
+          message.channel.send(`${data2.title} è stato eliminato correttamente!`)
+          client.channels.cache.get(`857985378040152064`).send(`${data2.title} è stato rifiutato!\nNote:${toSend}`)
+        }
 
-          else {
-            console.log ("Non è questo gioco")
-          }
-        })
+        else{
+            message.channel.send(`E' stato riscontrato un errore, prova a veder se l id era corretto!\nOppure: ${err}`)
+        }
+      
       })
+
+ 
          
   
     
